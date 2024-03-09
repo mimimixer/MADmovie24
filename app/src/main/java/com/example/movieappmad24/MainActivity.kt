@@ -1,6 +1,7 @@
 package com.example.movieappmad24
 
 import android.graphics.Paint.Align
+import android.media.ImageReader
 import android.os.Bundle
 import android.widget.GridLayout
 import androidx.activity.ComponentActivity
@@ -44,10 +45,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.getMovies
 import com.example.movieappmad24.ui.theme.MovieAppMAD24Theme
@@ -127,10 +131,15 @@ fun MovieRow(movie: Movie){
         Box(modifier = Modifier
             .padding(0.dp)
             .height(150.dp)) {
-            Image(
-                painter = painterResource(id = R.drawable.movie_image),
+            AsyncImage(
+                model = movie.images.random(),
+                //ImageRequest.Builder(LocalContext.current)
+                  //  .data({movie.images.random()})
+                    //.crossfade(true)
+                    //.build(),
+                placeholder = painterResource(id = R.drawable.movie_image),
                 contentScale = ContentScale.Crop,
-                contentDescription = "placeholder_image"
+                contentDescription = "movie_image"
             )
             Box(modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.TopEnd) {
