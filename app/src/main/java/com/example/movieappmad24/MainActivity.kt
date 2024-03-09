@@ -13,6 +13,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,12 +31,15 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,8 +47,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,6 +63,7 @@ import com.example.movieappmad24.models.getMovies
 import com.example.movieappmad24.ui.theme.MovieAppMAD24Theme
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -66,46 +73,62 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MovieList(movies = allMovieNames)
+                    Scaffold(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        topBar = {
+                            MovieTopAppBar()
+                        },
+                        bottomBar = {
+                            MovieBottomAppBar()
+                        }
+                    ) { values ->
+                        MovieList(movies = allMovieNames, modifier = Modifier.padding(values))
+
+                    }
                 }
             }
         }
     }
 }
 @Composable
-fun MovieList (movies: List<Movie>){
-    LazyColumn{
+fun MovieList (movies: List<Movie>, modifier: Modifier){
+    LazyColumn(modifier = Modifier
+        .fillMaxSize()
+    ){
         items(movies){movie ->
             MovieRow(movie)
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieTopAppBar() {
-    TopAppBar(
-        title = { Text("Movie App") }
+    CenterAlignedTopAppBar(
+        title = {
+            Text("Movie App")
+        }
     )
 }
 @Composable
 fun MovieBottomAppBar() {
-    Scaffold(
-        bottomBar = {
-            BottomAppBar(
-                backgroundColor = Color.White,
-                cutoutShape = CircleShape
-            ) {
+
+            BottomAppBar(modifier = Modifier
+                .padding(0.dp)
+                .height(100.dp)) {
                 Row(
                     Modifier
-                        .fillMaxWidth()
-                        .background(color = Color.Magenta),
+                        .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Column(modifier = Modifier.align(Alignment.CenterVertically)) {
+                    Column(modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .clip(CircleShape)) {
                         IconButton(onClick = { /*TODO*/ }) {
                             Icon(imageVector = Icons.Default.Home, contentDescription = "Home")
                         }
-                        Text(text = "Watchlist", color = Color.Black)
+                        Text(text = "Home", color = Color.Black)
                     }
                     Column {
                         IconButton(onClick = { /*TODO*/ }) {
@@ -116,9 +139,7 @@ fun MovieBottomAppBar() {
 
                 }
             }
-        },
-        content = { innerPadding -> (innerPadding) }
-    )
+
 }
 
 
@@ -184,7 +205,9 @@ fun MovieRow(movie: Movie){
 @Preview
 @Composable
 fun DefaultPreview(){
-    MovieList(movies = allMovieNames)
+    MovieAppMAD24Theme {
+        MovieList(movies = allMovieNames, modifier = Modifier)
+    }
 }
 
 
