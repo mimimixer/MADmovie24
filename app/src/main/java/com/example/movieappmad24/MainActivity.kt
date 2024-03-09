@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -68,7 +70,7 @@ class MainActivity : ComponentActivity() {
 }
 @Composable
 fun MovieList (movies: List<Movie>){
-    LazyColumn(){
+    LazyColumn{
         items(movies){movie ->
             MovieRow(movie)
         }
@@ -118,19 +120,20 @@ fun MovieBottomAppBar() {
 
 @Composable
 fun MovieRow(movie: Movie){
-    val clickedArrow by remember { mutableStateOf(false) }
+    var clickedArrow by remember { mutableStateOf(false) }
     Card {
     Column(modifier = Modifier
         .padding(Dp(12F))) {
         Box(modifier = Modifier
             .padding(0.dp)
-            .height(120.dp)) {
+            .height(150.dp)) {
             Image(
                 painter = painterResource(id = R.drawable.movie_image),
                 contentScale = ContentScale.Crop,
                 contentDescription = "placeholder_image"
             )
-            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopEnd) {
+            Box(modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.TopEnd) {
                 Icon(
                     painter = painterResource(id = R.drawable.outline_favorite_border_24),
                     contentDescription = "little_heart"
@@ -144,8 +147,9 @@ fun MovieRow(movie: Movie){
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(text = movie.title, color = Color.Black)
-            Icon(
-                imageVector = if (clickedArrow) Icons.Outlined.KeyboardArrowDown else Icons.Outlined.KeyboardArrowUp,
+            Icon(modifier = Modifier.clickable { clickedArrow = !clickedArrow },
+                imageVector = if (clickedArrow) Icons.Outlined.KeyboardArrowDown
+                else Icons.Outlined.KeyboardArrowUp,
                // imageVector = Icons.Outlined.KeyboardArrowUp,
                 contentDescription = "little arrow toggle button",
                 tint = Color.Black
