@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
                         }
                     ) { values -> // 10.3.24 idea of a box from von https://stackoverflow.com/questions/67080426/compose-appbar-overlaps-activity-content
                         Box (modifier = Modifier.padding(values)){
-                            MovieList(movies = getMovies(), 1)
+                            MovieList(movies = getMovies(), 0)
                         }
 
                     }
@@ -187,15 +187,27 @@ fun MovieCard(movie: Movie, number: Int){
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(text = movie.title)
-            Icon(modifier = Modifier.clickable { clickedArrow = !clickedArrow },
-                imageVector = if (clickedArrow) Icons.Outlined.KeyboardArrowDown
-                else Icons.Outlined.KeyboardArrowUp,
-               // imageVector = Icons.Outlined.KeyboardArrowUp,
-                contentDescription = "little arrow toggle button",
-            )
+            Box(modifier = Modifier.clickable { clickedArrow = !clickedArrow }){
+                ToggleArrow(clickedArrow)
+            }
         }
     }
-            GetMovieInfos(movie = movie, clickedArrow = clickedArrow)
+        GetMovieInfos(movie = movie, clickedArrow = clickedArrow)
+    }
+}
+
+@Composable
+fun ToggleArrow (clicked: Boolean){
+    if (clicked) {
+        Icon(
+            imageVector = Icons.Outlined.KeyboardArrowDown,
+            contentDescription = "arrow down show"
+        )
+    } else {
+        Icon(
+            imageVector = Icons.Outlined.KeyboardArrowUp,
+            contentDescription = "arrow up not show",
+        )
     }
 }
 
@@ -241,8 +253,8 @@ fun GetMovieInfos (movie:Movie, clickedArrow: Boolean){
 
 @Composable
 fun GetMoviePoster (movie: Movie, number: Int){
-    var poster = movie.images[1]
-    if (number != 1){
+    var poster = movie.images[0]
+    if (number != 0){
         poster =movie.images.random()
     }
     AsyncImage(
@@ -262,6 +274,6 @@ fun GetMoviePoster (movie: Movie, number: Int){
 @Composable
 fun DefaultPreview(){
     MovieAppMAD24Theme {
-        MovieList(movies = getMovies(),2)
+        MovieList(movies = getMovies(),0)
     }
 }
