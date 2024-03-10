@@ -22,6 +22,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Badge
+import androidx.compose.material.BadgedBox
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
@@ -40,6 +42,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Surface
@@ -47,8 +50,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSaveableStateHolder
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -95,7 +101,7 @@ class MainActivity : ComponentActivity() {
                             MovieTopAppBar()
                         },
                         bottomBar = {
-                            MovieBottomAppBar()
+                            MovieBottomNavigationBar()
                         }
                     ) { values ->
                         MovieList(movies = allMovieNames, modifier = Modifier.padding(values))
@@ -128,56 +134,60 @@ fun MovieTopAppBar() {
     )
 }
 
+data class BottomNavigationItem(
+    val title: String,
+    val selectedIcon: ImageVector,
+    val unselectedIcon: ImageVector
+)
+
+val bottomIcons = listOf(
+    BottomNavigationItem (
+        title = "Home",
+        selectedIcon = Icons.Filled.Home,
+        unselectedIcon = Icons.Default.Home
+    ),
+    BottomNavigationItem(
+        title = "Watchlist",
+        selectedIcon = Icons.Filled.Star,
+        unselectedIcon = Icons.Filled.Star
+    )
+)
+
 
 @Composable
-fun MovieBottomAppBar() {
-            BottomAppBar(modifier = Modifier
-                .height(70.dp)
-                .graphicsLayer {
-                    clip = true
-                    shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
-                    shadowElevation = 2.2f
+fun MovieBottomNavigationBar() {
+    var selectedItemIndex by rememberSaveable {
+        mutableStateOf(0)
+    }
+    NavigationBar (modifier = Modifier
+        .graphicsLayer {
+            clip = true
+            shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
+            shadowElevation = 2.2f
+        }
+    ){
+        bottomIcons.forEachIndexed { index, item ->
+            NavigationBarItem(
+                selected = selectedItemIndex == index,
+                onClick = {
+                    selectedItemIndex = index 
+                          },
+                icon = {
+                    BadgedBox(badge = {}) {
+                        Icon(
+                            imageVector = if (index == selectedItemIndex){
+                                item.selectedIcon
+                            } else item.unselectedIcon,
+                            contentDescription = item.title
+                        )
+                    } 
                 },
-                backgroundColor = Pink80,
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-          //              IconButton(modifier = Modifier.clickable {  },
-            //                onClick = { /*TODO*/ }
-              //          ) {
-                            Column(
-                                verticalArrangement = Arrangement.SpaceAround,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                            Icon(
-                                imageVector = Icons.Default.Home,
-                                contentDescription = "Home",
-                                tint = Color.Black
-                            )
-                            Text(text = "Home", color = Color.Black)
-                        }
-             //       }
-
-              //          IconButton(modifier = Modifier.clickable {  },
-                //            onClick = { /*TODO*/ }
-                  //      ) {
-                            Column(
-                                verticalArrangement = Arrangement.SpaceAround,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                            Icon(
-                                imageVector = Icons.Default.Star,
-                                contentDescription = "Watchlist",
-                                tint = Color.Black
-                            )
-                            Text(text = "Watchlist", color = Color.Black)
-                        }
-                  //  }
+                label = {
+                    Text(text = item.title)
                 }
-            }
+            )
+        }
+    }
 }
 
 
