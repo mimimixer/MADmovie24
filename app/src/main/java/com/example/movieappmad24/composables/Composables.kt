@@ -19,6 +19,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Favorite
@@ -29,7 +30,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -194,6 +194,7 @@ fun SimpleBottomAppBar(navController: NavController) {
     ) {// 24.03.29 https://developer.android.com/develop/ui/compose/navigation#bottom-nav
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
+         println(currentDestination.toString())
 
         bottomNavigationIcons.forEach { item ->
             BottomNavigationItem(
@@ -206,7 +207,7 @@ fun SimpleBottomAppBar(navController: NavController) {
                         // avoid building up a large stack of destinations
                         // on the back stack as users select items
                         popUpTo(navController.graph.findStartDestination().id){
-                            saveState = true
+                            //saveState = true
                         }
                         // Avoid multiple copies of the same destination when
                         // reselecting the same item
@@ -219,7 +220,7 @@ fun SimpleBottomAppBar(navController: NavController) {
                     Icon(
                         //imageVector = if (navController.currentDestination?.toString()?.contains(item.route) == true) {
                         item.selectedIcon,
-                        // } else {item.unselectedIcon},
+                         //} else {item.unselectedIcon},
                         contentDescription = item.title
                     )
                 },
@@ -335,7 +336,7 @@ fun GetMovieInfos (movie: Movie, clickedArrow: Boolean){
             Text(text = "Genre: ${movie.genre}", style = MaterialTheme.typography.bodySmall)
             Text(text = "Actors: ${movie.actors}", style = MaterialTheme.typography.bodySmall)
             Text(text = "Rating: ${movie.rating}", style = MaterialTheme.typography.bodySmall)
-            HorizontalDivider()
+            Divider()
             Text(text = "Plot: ${movie.plot}")
         }
     }
