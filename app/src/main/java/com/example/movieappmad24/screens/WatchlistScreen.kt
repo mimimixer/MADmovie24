@@ -6,7 +6,6 @@ import androidx.navigation.NavController
 import com.example.movieappmad24.composables.MovieList
 import com.example.movieappmad24.composables.SimpleBottomAppBar
 import com.example.movieappmad24.composables.SimpleTopAppBar
-import com.example.movieappmad24.models.getDefaultMovies
 import com.example.movieappmad24.models.getMovies
 
 @Composable
