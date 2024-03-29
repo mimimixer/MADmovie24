@@ -39,16 +39,7 @@ fun SimpleTopAppBar(topBarText: String, backArrow: Boolean, navController: NavCo
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                if (backArrow) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                        modifier = Modifier
-                            .clickable {
-                                navController.popBackStack()
-                            },
-                        contentDescription = "navigate Back"
-                    )
-                }
+                BackArrow(hasArrow = backArrow, navController = navController)
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -121,5 +112,19 @@ fun SimpleBottomAppBar(navController: NavController) {
                 }
             )
         }
+    }
+}
+
+@Composable
+fun BackArrow(hasArrow: Boolean, navController: NavController){
+    if (hasArrow) {
+        Icon(
+            imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
+            modifier = Modifier
+                .clickable {
+                    navController.popBackStack()
+                },
+            contentDescription = "navigate Back"
+        )
     }
 }
