@@ -195,13 +195,16 @@ fun SimpleBottomAppBar(navController: NavController) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentDestination = navBackStackEntry?.destination
          println(currentDestination.toString())
+        var select = false
 
         bottomNavigationIcons.forEach { item ->
             BottomNavigationItem(
                 selected = currentDestination?.hierarchy?.any {
                     it.route == item.route
                 } == true,
+
                 onClick = {
+                    select = !select
                     navController.navigate(route = item.route) {
                         // Pop up to the start destination of the graph to
                         // avoid building up a large stack of destinations
@@ -218,9 +221,9 @@ fun SimpleBottomAppBar(navController: NavController) {
                 },
                 icon = {
                     Icon(
-                        //imageVector = if (navController.currentDestination?.toString()?.contains(item.route) == true) {
-                        item.selectedIcon,
-                         //} else {item.unselectedIcon},
+                        imageVector = if(select){
+                        item.selectedIcon
+                         } else {item.unselectedIcon},
                         contentDescription = item.title
                     )
                 },
