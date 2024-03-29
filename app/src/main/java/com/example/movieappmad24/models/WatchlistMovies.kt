@@ -1,5 +1,4 @@
 package com.example.movieappmad24.models
-import com.example.movieappmad24.models.getMovies
 
 data class WatchlistMovies (
     val movieId: String
@@ -28,24 +27,24 @@ fun getWatchlistMovies(): MutableList<Movie>? {
     var thisWatchlistmovie : Movie
     var watchlistMovies = mutableListOf<Movie>()
     watchlist.forEach{ item ->
-            getMovies().find { it.id == item}?.let {
-                thisWatchlistmovie = (
-                        Movie(
-                    id = it.id,
-                    title = it.title,
-                    year = it.year,
-                    genre = it.genre,
-                    director = it.director,
-                    actors = it.actors,
-                    plot = it.plot,
-                    images = it.images,
-                    trailer = it.trailer,
-                    rating = it.rating
-                )
-                )
-                watchlistMovies.add(thisWatchlistmovie)
-            }
-            }
+        getMovies().find { it.id == item}?.let {
+            thisWatchlistmovie = (
+                    Movie(
+                        id = it.id,
+                        title = it.title,
+                        year = it.year,
+                        genre = it.genre,
+                        director = it.director,
+                        actors = it.actors,
+                        plot = it.plot,
+                        images = it.images,
+                        trailer = it.trailer,
+                        rating = it.rating
+                    )
+                    )
+            watchlistMovies.add(thisWatchlistmovie)
+        }
+    }
     return watchlistMovies
 }
 

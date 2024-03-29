@@ -7,14 +7,12 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.movieappmad24.models.WatchlistMovies
-import com.example.movieappmad24.models.getDefaultMovies
+import com.example.movieappmad24.models.DETAIL_SCREEN_KEY
+import com.example.movieappmad24.models.Screen
 import com.example.movieappmad24.models.getMovies
-import com.example.movieappmad24.models.getWatchlistMovies
-import com.example.movieappmad24.models.watchlist
 import com.example.movieappmad24.screens.DetailScreen
 import com.example.movieappmad24.screens.HomeScreen
-import com.example.movieappmad24.screens.Watchlist
+import com.example.movieappmad24.screens.WatchlistScreen
 
 @Composable
 fun Navigation(navController: NavHostController){
@@ -28,27 +26,26 @@ fun Navigation(navController: NavHostController){
             HomeScreen(navController = navController)
         }
         composable(
-            route = Screen.Detail.route + "/{movieId}",
+            route = Screen.Detail.route + "/{$DETAIL_SCREEN_KEY}",
             arguments = listOf(
-                navArgument(name = "movieId") {
-                type = NavType.StringType
-            })
+                navArgument(name = "$DETAIL_SCREEN_KEY") {
+                    type = NavType.StringType
+                })
         ) {backStackEntry ->
-            var movietitle = getMovies().find{ it.id == backStackEntry.arguments?.getString("movieId")}?.title
+            var movietitle = getMovies().find{ it.id == backStackEntry.arguments?.getString("$DETAIL_SCREEN_KEY")}?.title
             Log.d("Args", "$movietitle")
-            DetailScreen(movieId = backStackEntry.arguments?.getString("movieId"), navController)
+            DetailScreen(movieId = backStackEntry.arguments?.getString("$DETAIL_SCREEN_KEY"), navController)
         }
-        composable(
-            route = Screen.Watchlist.route,
+        composable(route = Screen.Watchlist.route
             /*arguments = listOf(
                 navArgument(name = "watchList"){
                     type = NavType.StringType
                     defaultValue = "default"
                     nullable = true
                 })*/
-            )
+        )
         {
-            Watchlist(navController = navController)
+            WatchlistScreen(navController = navController)
         }
     }
 

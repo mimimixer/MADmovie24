@@ -7,20 +7,18 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
-import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BadgedBox
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Favorite
@@ -30,20 +28,16 @@ import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -54,16 +48,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.movieappmad24.R
 import com.example.movieappmad24.models.Movie
-import com.example.movieappmad24.models.bottomIcons
+import com.example.movieappmad24.models.Screen
+import com.example.movieappmad24.models.bottomNavigationIcons
 import com.example.movieappmad24.models.deleteMovie
 import com.example.movieappmad24.models.setMovies
-import com.example.movieappmad24.navigation.Screen
 
 @Composable
 fun MovieList (
@@ -85,14 +80,14 @@ fun MovieList (
                 }
             )*/
             MovieCard(movie) {movieId -> //this is what is called MovieRow in the exercises
-                navController.navigate(route = Screen.Detail.withArgs(movieId))//$movieId)
+                navController.navigate(route = "${Screen.Detail.route}/$movieId")
             }
         }
     }
 }
 
 @Composable
-fun PosterHorizontalScroll(movie: Movie, sizeDp: Int, contentScaleVar: ContentScale) {
+fun PosterHorizontalScroll(movie: Movie, sizeDp: Int){ //, contentScaleVar: ContentScale) {
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -122,14 +117,14 @@ fun PosterHorizontalScroll(movie: Movie, sizeDp: Int, contentScaleVar: ContentSc
                     shadowElevation = 2.2f
                 }
             ) {
-                GetMoviePoster(image, contentScaleVar)
+                GetMoviePoster(image) //, contentScaleVar)
             }
         }
     }
 }
 
 @Composable
-fun GetMoviePoster (movie: String, contentScaleVar: ContentScale){
+fun GetMoviePoster (movie: String){ //, contentScaleVar: ContentScale
     /*if (number != 0){
         poster =movie.images.random()
     }*/
@@ -141,7 +136,7 @@ fun GetMoviePoster (movie: String, contentScaleVar: ContentScale){
         //for if you want only an image from a specific index:
         // model =  movie.images[1],
         placeholder = painterResource(id = R.drawable.movie_image),
-        contentScale = contentScaleVar,
+        contentScale = ContentScale.Crop, //contentScaleVar,
         contentDescription = "movie_image",
         /* loading = {
              CircularProgressIndicator()
@@ -153,47 +148,42 @@ fun GetMoviePoster (movie: String, contentScaleVar: ContentScale){
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleTopAppBar(topBarText: String, backArrow: Boolean, navController: NavController) {
-        CenterAlignedTopAppBar(
-            title = {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ){
-                    if (backArrow) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                            modifier = Modifier
-                                .clickable {
-                                    navController.popBackStack()
-                                           },
-                            contentDescription = "navigate Back"
-                        )
-                    }
-                    Box(
+    CenterAlignedTopAppBar(
+        title = {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ){
+                if (backArrow) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
                         modifier = Modifier
-                            .fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(text = topBarText)
-                    }
+                            .clickable {
+                                navController.popBackStack()
+                            },
+                        contentDescription = "navigate Back"
+                    )
                 }
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = MaterialTheme.colorScheme.primary
-            )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = topBarText)
+                }
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            titleContentColor = MaterialTheme.colorScheme.primary
         )
+    )
 }
 
-//creates a bottomBar with navigational buttons from bottomList
 @Composable
 fun SimpleBottomAppBar(navController: NavController) {
-    var selectedItemIndex by rememberSaveable {
-        mutableIntStateOf(0)
-    }
-    //val selectedItemIndex by navController.currentBackStackEntryAsState()
-    NavigationBar(modifier = Modifier
+    BottomNavigation(modifier = Modifier
         //10-3-24 finally found how to round corners
         //https://stackoverflow.com/questions/72270597/bottom-nav-bar-with-curved-edge-and-shadow-jetpack-compose
         .graphicsLayer {
@@ -201,30 +191,37 @@ fun SimpleBottomAppBar(navController: NavController) {
             shape = RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)
             shadowElevation = 2.2f
         }
-    ) {
-        bottomIcons.forEachIndexed { index, item ->
-            NavigationBarItem(
-                selected = index == selectedItemIndex,
+    ) {// 24.03.29 https://developer.android.com/develop/ui/compose/navigation#bottom-nav
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentDestination = navBackStackEntry?.destination
+
+        bottomNavigationIcons.forEach { item ->
+            BottomNavigationItem(
+                selected = currentDestination?.hierarchy?.any {
+                    it.route == item.route
+                } == true,
                 onClick = {
-                    selectedItemIndex = index
-                    navController.navigate(route = item.route)
-                    /*{
+                    navController.navigate(route = item.route) {
+                        // Pop up to the start destination of the graph to
+                        // avoid building up a large stack of destinations
+                        // on the back stack as users select items
                         popUpTo(navController.graph.findStartDestination().id){
                             saveState = true
                         }
+                        // Avoid multiple copies of the same destination when
+                        // reselecting the same item
                         launchSingleTop = true
+                        // Restore state when reselecting a previously selected item
                         restoreState = true
-                    }*/
+                    }
                 },
                 icon = {
-                    BadgedBox(badge = {}) {
-                        Icon(
-                            imageVector = if (index == selectedItemIndex) {
-                                item.selectedIcon
-                            } else item.unselectedIcon,
-                            contentDescription = item.title
-                        )
-                    }
+                    Icon(
+                        //imageVector = if (navController.currentDestination?.toString()?.contains(item.route) == true) {
+                        item.selectedIcon,
+                        // } else {item.unselectedIcon},
+                        contentDescription = item.title
+                    )
                 },
                 label = {
                     Text(text = item.title)
@@ -259,7 +256,7 @@ fun MovieCard(movie: Movie, onItemClick: (String) -> Unit={}){
                     .fillMaxWidth()
                     .height(150.dp)
             ) {
-                GetMoviePoster(movie = movie.images[0], contentScaleVar = ContentScale.Crop)
+                GetMoviePoster(movie = movie.images[0]) //, contentScaleVar = ContentScale.Crop)
                 Box(
                     modifier = Modifier
                         .padding(10.dp)
@@ -338,7 +335,7 @@ fun GetMovieInfos (movie: Movie, clickedArrow: Boolean){
             Text(text = "Genre: ${movie.genre}", style = MaterialTheme.typography.bodySmall)
             Text(text = "Actors: ${movie.actors}", style = MaterialTheme.typography.bodySmall)
             Text(text = "Rating: ${movie.rating}", style = MaterialTheme.typography.bodySmall)
-            Divider()
+            HorizontalDivider()
             Text(text = "Plot: ${movie.plot}")
         }
     }
