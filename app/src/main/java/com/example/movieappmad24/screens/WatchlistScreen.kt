@@ -2,14 +2,18 @@ package com.example.movieappmad24.screens
 
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.movieappmad24.composables.MovieList
 import com.example.movieappmad24.composables.SimpleBottomAppBar
 import com.example.movieappmad24.composables.SimpleTopAppBar
+import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MoviesViewModel
 import com.example.movieappmad24.models.getMovies
+import com.example.movieappmad24.models.watchlist
 
 @Composable
-fun WatchlistScreen(navController: NavController) {
+fun WatchlistScreen(navController: NavController, moviesViewModel: MoviesViewModel) {
     Scaffold(
         topBar = {
             SimpleTopAppBar("My Watchlist", false, navController)
@@ -26,10 +30,10 @@ fun WatchlistScreen(navController: NavController) {
                    .fillMaxSize()
                    .padding(values)
            ){*/
-
+        val listOfMovs = getMovies()
         MovieList(
             values = values,
-            movies = getMovies().slice(4..6),
+            movies = moviesViewModel.watchList,
             navController = navController
         )
         //MovieCard(movie = getDefaultMovies()[0])
@@ -46,4 +50,5 @@ fun WatchlistScreen(navController: NavController) {
         }*/
     }
 }
+
 

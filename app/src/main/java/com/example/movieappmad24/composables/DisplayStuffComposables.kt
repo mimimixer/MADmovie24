@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +40,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.movieappmad24.R
 import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MoviesViewModel
 import com.example.movieappmad24.models.Screen
 
 @Composable
@@ -60,9 +62,14 @@ fun MovieList (
                     movieId -> Log.d("MovieList", "My callback value: $movieId")
                 }
             )*/
-            MovieCard(movie) { movieId -> //this is what is called MovieRow in the exercises
-                navController.navigate(route = "${Screen.Detail.route}/$movieId")
-            }
+            MovieCard(
+                movie,
+                onItemClick = { movieId -> //this is what is called MovieRow in the exercises
+                navController.navigate(route = "${Screen.Detail.route}/$movieId")},
+                onFavouriteClick = {movie ->
+                    movie.isFavourite = !movie.isFavourite}
+            )
+           // }
         }
     }
 }
@@ -127,13 +134,17 @@ fun GetMoviePoster (movie: String){ //, contentScaleVar: ContentScale
 
 @Composable
 //this is what is called MovieRow in the exercises, but I got confused by that name
-fun MovieCard(movie: Movie, onItemClick: (String) -> Unit={}){
+fun MovieCard(
+    movie: Movie,
+    onItemClick: (String) -> Unit={},
+    onFavouriteClick: (Movie) -> Unit={}
+){
     var clickedArrow by remember {
         mutableStateOf(false)
     }
-    val heartyToClick by remember {
+/*    val heartyToClick by rememberSaveable {
         mutableStateOf(true)
-    }
+    }*/
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -154,10 +165,13 @@ fun MovieCard(movie: Movie, onItemClick: (String) -> Unit={}){
                 Box(
                     modifier = Modifier
                         .padding(10.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .clickable {
+                            onFavouriteClick(movie)
+                                   },
                     contentAlignment = Alignment.TopEnd,
                 ) {
-                    LikeMoviesHeart(heartyToClick, movie)
+                    LikeMoviesHeart(movie.isFavourite)
                 }
             }
             Row(

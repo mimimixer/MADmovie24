@@ -11,11 +11,13 @@ import com.example.movieappmad24.composables.MovieCard
 import com.example.movieappmad24.composables.PosterHorizontalScroll
 import com.example.movieappmad24.composables.SimpleBottomAppBar
 import com.example.movieappmad24.composables.SimpleTopAppBar
+import com.example.movieappmad24.models.MoviesViewModel
+import com.example.movieappmad24.models.Screen
 import com.example.movieappmad24.models.getMovies
 
 
 @Composable
-fun DetailScreen(movieId: String?, navController: NavController) {
+fun DetailScreen(movieId: String?, navController: NavController, moviesViewModel: MoviesViewModel) {
     Scaffold(
         topBar = {
             SimpleTopAppBar(
@@ -42,14 +44,22 @@ fun DetailScreen(movieId: String?, navController: NavController) {
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.headlineLarge
             )*/
-        getMovies().find { it.id == movieId }?.let {
+        moviesViewModel.movieList.find { it.id == movieId }?.let {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(values)
             ) {
-                MovieCard(movie = it) //this is what is called MovieRow in the exercises
-                PosterHorizontalScroll(movie = it, sizeDp = 250) //, contentScaleVar = ContentScale.Crop)
+                MovieCard(
+                    movie = it,
+                    onItemClick = {
+                        //movieId -> //this is what is called MovieRow in the exercises
+                        //navController.navigate(route = "${Screen.Detail.route}/$movieId")
+                                  },
+                    onFavouriteClick = {movie ->
+                        movie.isFavourite = !movie.isFavourite}
+                ) //this is what is called MovieRow in the exercises
+                 //, contentScaleVar = ContentScale.Crop)
             }
         }
     }

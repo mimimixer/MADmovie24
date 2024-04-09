@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,28 +35,28 @@ fun ToggleArrow (clicked: Boolean){
 }
 
 @Composable
-fun LikeMoviesHeart (hearty: Boolean, movie: Movie){
-    var heartyToClick by remember {
+fun LikeMoviesHeart (hearty: Boolean){
+/*    var heartyToClick by remember {
         mutableStateOf(hearty)
-    }
-    if (heartyToClick) {
+    }*/
+    if (!hearty) {
         Icon(
-            modifier = Modifier
-                .clickable { heartyToClick = !heartyToClick },
+            //modifier = Modifier
+              //  .clickable { heartyToClick = !heartyToClick },
             imageVector = Icons.Outlined.FavoriteBorder,
+            tint = Color.Yellow,
             contentDescription = "little empty heart"
         )
-        deleteMovie(movie.id)
+        //movie.isFavourite = !movie.isFavourite
     } else {
         Icon(
-            modifier = Modifier
-                .clickable { heartyToClick = !heartyToClick },
+           // modifier = Modifier
+             //   .clickable { heartyToClick = !heartyToClick },
             imageVector = Icons.Outlined.Favorite,
             tint = Color.Red,
             contentDescription = "little red heart",
-
             )
-        setMovies(movie.id)
+       // movie.isFavourite = !movie.isFavourite
     }
 }
 
