@@ -1,5 +1,6 @@
 package com.example.movieappmad24.composables
 
+import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -32,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -124,9 +127,12 @@ fun GetMoviePoster (movie: String){ //, contentScaleVar: ContentScale
         //for if you want only an image from a specific index:
         // model =  movie.images[1],
         placeholder = painterResource(id = R.drawable.movie_image),
-        contentScale = ContentScale.Crop, //contentScaleVar,
+        contentScale = ContentScale.Crop,//contentScaleVar,
         contentDescription = "movie_image",
-        /* loading = {
+        modifier = Modifier
+            .fillMaxSize()
+            /*.aspectRatio(15f/6f)
+         loading = {
              CircularProgressIndicator()
          }*/
     )
@@ -155,11 +161,19 @@ fun MovieCard(
         shape = MaterialTheme.shapes.large, //rounded corner
         elevation = CardDefaults.cardElevation(40.dp)
     ) {
+        var picsize: Int
+        if(LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT){
+            picsize = 150
+        } else {
+            picsize=300
+        }
         Column {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp)
+                    //.aspectRatio(16f / 6f),
+                    .height(picsize.dp),
+                contentAlignment = Alignment.TopCenter
             ) {
                 GetMoviePoster(movie = movie.images[0]) //, contentScaleVar = ContentScale.Crop)
                 Box(

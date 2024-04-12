@@ -56,6 +56,7 @@ android {
 dependencies {
     val nav_version = "2.7.7"
     val lifecycle_version = "2.7.0"
+    val exoplayer_version = "1.3.1"
     implementation("androidx.core:core-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.0")
@@ -67,6 +68,9 @@ dependencies {
     implementation("androidx.compose.ui:ui:1.0.0")
     implementation("androidx.compose.material:material:1.6.3")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
+    implementation("androidx.media3:media3-exoplayer:$exoplayer_version")
+    implementation("androidx.media3:media3-exoplayer-dash:$exoplayer_version")
+    implementation("androidx.media3:media3-ui:$exoplayer_version")
     implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation("io.coil-kt:coil-compose:2.6.0")
     testImplementation("junit:junit:4.13.2")
