@@ -1,6 +1,7 @@
 package com.example.movieappmad24.models
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 
@@ -16,9 +17,13 @@ data class Movie(
     val trailer: String,
     val rating: String,
 
-    val initialIsFavourite: Boolean = false
+    val initialIsFavourite: Boolean = false,
+    val playerPositionWhenStops: Long = 0,
+    val playerIsPlaying: Boolean = true
 ){
     var isFavourite by mutableStateOf(initialIsFavourite)
+    var playerReset by mutableLongStateOf(playerPositionWhenStops)
+    var playerPlays by mutableStateOf(playerIsPlaying)
 }
 fun getDefaultMovies(): List<Movie> {
     return listOf(

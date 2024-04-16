@@ -65,7 +65,7 @@ fun DetailScreen(movieId: String?, navController: NavController, moviesViewModel
                             movie.isFavourite = !movie.isFavourite
                         }
                     ) //this is what is called MovieRow in the exercises
-                    PlayerTrailer(it.trailer)
+                    PlayerTrailer(it, moviesViewModel)
                     PosterHorizontalScroll(movie = it, sizeDp = 250)
                 //, contentScaleVar = ContentScale.Crop)
                 }
