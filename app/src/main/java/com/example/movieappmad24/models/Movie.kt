@@ -1,9 +1,11 @@
 package com.example.movieappmad24.models
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 
 data class Movie(
     val id: String,
@@ -28,30 +30,20 @@ data class Movie(
 fun getDefaultMovies(): List<Movie> {
     return listOf(
         Movie(
-            id = "tt3472226",
-            title = "Kung Fury",
-            year = "2015",
-            genre = "Short, Action, Comedy",
-            director = "David Sandberg",
-            actors = "David Sandberg, Jorma Taccone, Steven Chew",
-            plot = "In 1985, Kung Fury, the toughest martial artist cop in Miami, goes back in time to kill the worst criminal of all time - Kung Führer, a.k.a. Adolf Hitler.",
-            images = listOf("https://m.media-amazon.com/images/M/MV5BMjQwMjU2ODU5NF5BMl5BanBnXkFtZTgwNTU1NjM4NTE@._V1_SX300.jpg"),
+            id = "no",
+            title = "I don't wanna watch movies",
+            year = "neverEver",
+            genre = "not",
+            director = "me",
+            actors = "also me, myself, and I",
+            plot = "I have better things to do",
+            images = listOf("https://www.publicdomainpictures.net/pictures/280000/velka/just-say-no.jpg"),
             trailer = "trailer_placeholder",
-            rating = "8.0"
+            rating = "10.0",
+            initialIsFavourite =true,
+            playerPositionWhenStops = 0,
+            playerIsPlaying = true
         ),
-
-        Movie(
-            id = "tt0050306",
-            title = "Designing Woman",
-            year = "1957",
-            genre = "Comedy, Romance",
-            director = "Comedy, Romance",
-            actors = "Lauren Bacall, Gregory Peck, Dolores Gray",
-            plot = "A sportswriter and a fashion-designer marry after a whirlwind romance, and discover they have little in common.",
-            images = listOf("https://m.media-amazon.com/images/M/MV5BZDAxZjIwZmUtMjhiYi00NmQ0LWE1YmItNTNiODBkYWZiZjgxXkEyXkFqcGdeQXVyMDI2NDg0NQ@@._V1_SX300.jpg"),
-            trailer = "trailer_placeholder",
-            rating = "6.7"
-        )
     )
 }
 

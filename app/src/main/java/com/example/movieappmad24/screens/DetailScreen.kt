@@ -67,7 +67,6 @@ fun DetailScreen(movieId: String?, navController: NavController, moviesViewModel
                     ) //this is what is called MovieRow in the exercises
                     PlayerTrailer(it, moviesViewModel)
                     PosterHorizontalScroll(movie = it, sizeDp = 250)
-                //, contentScaleVar = ContentScale.Crop)
                 }
             }
         }

@@ -58,13 +58,6 @@ fun MovieList (
             .padding(values)
     ) {
         items(movies) { movie ->
-            /*MovieCard(
-                movie = movie,
-                number = number,
-                onItemClick = {
-                    movieId -> Log.d("MovieList", "My callback value: $movieId")
-                }
-            )*/
             MovieCard(
                 movie,
                 onItemClick = { movieId -> //this is what is called MovieRow in the exercises
@@ -72,7 +65,6 @@ fun MovieList (
                 onFavouriteClick = {movie ->
                     movie.isFavourite = !movie.isFavourite}
             )
-           // }
         }
     }
 }
@@ -131,10 +123,6 @@ fun GetMoviePoster (movie: String){ //, contentScaleVar: ContentScale
         contentDescription = "movie_image",
         modifier = Modifier
             .fillMaxSize()
-            /*.aspectRatio(15f/6f)
-         loading = {
-             CircularProgressIndicator()
-         }*/
     )
 }
 

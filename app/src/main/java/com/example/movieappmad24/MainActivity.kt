@@ -20,7 +20,7 @@ class MainActivity : ComponentActivity() {
             MovieAppMAD24Theme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.secondary
                 ) {
                     Navigation()
                 }
