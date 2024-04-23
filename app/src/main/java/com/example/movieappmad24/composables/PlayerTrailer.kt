@@ -25,13 +25,13 @@ import com.example.movieappmad24.models.MoviesViewModel
 @Composable
 fun PlayerTrailer (currentMovie: Movie, moviesViewModel: MoviesViewModel){
 
-    var lifecycle by rememberSaveable {
+    var lifecycle by remember {
         mutableStateOf(Lifecycle.Event.ON_CREATE)
     }
 
     val context = LocalContext.current
 
-    var trailerLocation = context.resources.getIdentifier(currentMovie.trailer, "raw", context.packageName)
+    val trailerLocation = context.resources.getIdentifier(currentMovie.trailer, "raw", context.packageName)
 
     val movieTrailer = MediaItem.fromUri(
             //"https://file-examples.com/storage/fe793dd9be65a9b389251ea/2017/04/file_example_MP4_480_1_5MG.mp4"
@@ -56,12 +56,14 @@ fun PlayerTrailer (currentMovie: Movie, moviesViewModel: MoviesViewModel){
     DisposableEffect(key1 = lifecycleOwner) {
         val observer = LifecycleEventObserver { _, event ->
             println(event)
+            println(lifecycleOwner)
             lifecycle = event
         }
+        println(observer)
         lifecycleOwner.lifecycle.addObserver(observer)
 
         onDispose {
-            moviesViewModel.setCurrentPosition(currentMovie, exoPlayer?.currentPosition!!)
+            moviesViewModel.setCurrentPosition(currentMovie, exoPlayer.currentPosition)
             moviesViewModel.togglePlayer(currentMovie, exoPlayer.isPlaying)
             exoPlayer.release()
             lifecycleOwner.lifecycle.removeObserver(observer)
@@ -86,9 +88,6 @@ fun PlayerTrailer (currentMovie: Movie, moviesViewModel: MoviesViewModel){
                     if (currentMovie.playerPlays) {
                         it.player?.play()
                     }
-                }
-
-                Lifecycle.Event.ON_PAUSE ->{
                 }
 
                 Lifecycle.Event.ON_STOP -> {
