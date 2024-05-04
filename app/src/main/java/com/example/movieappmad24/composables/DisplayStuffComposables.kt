@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,7 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,15 +42,18 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.movieappmad24.R
 import com.example.movieappmad24.models.Movie
-import com.example.movieappmad24.models.MoviesViewModel
+import com.example.movieappmad24.viewmodels.MoviesViewModel
 import com.example.movieappmad24.models.Screen
+import kotlinx.coroutines.launch
 
 @Composable
 fun MovieList (
     values: PaddingValues,
     movies: List<Movie>,
-    navController: NavController
+    navController: NavController,
+    viewModel: MoviesViewModel
 ){
+    val coroutineScope = rememberCoroutineScope()
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -63,7 +65,10 @@ fun MovieList (
                 onItemClick = { movieId -> //this is what is called MovieRow in the exercises
                 navController.navigate(route = "${Screen.Detail.route}/$movieId")},
                 onFavouriteClick = {movie ->
-                    movie.isFavourite = !movie.isFavourite}
+                    coroutineScope.launch{
+                        viewModel.toggleFavoriteMovie(movie)
+                    }
+                }
             )
         }
     }
@@ -144,7 +149,7 @@ fun MovieCard(
             .fillMaxWidth()
             .padding(3.dp)
             .clickable {
-                onItemClick(movie.id)
+                onItemClick(movie.id.toString())
             },
         shape = MaterialTheme.shapes.large, //rounded corner
         elevation = CardDefaults.cardElevation(40.dp)

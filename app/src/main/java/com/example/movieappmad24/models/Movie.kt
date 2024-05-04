@@ -1,6 +1,5 @@
 package com.example.movieappmad24.models
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -12,29 +11,47 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Movie(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    @ColumnInfo(name = "title") val title: String,
-    @ColumnInfo(name = "year") val year: String?,
-    @Ignore val genre: String,
-    @ColumnInfo(name = "director") val director: String?,
-    @ColumnInfo(name = "actors") val actors: String?,
-    @ColumnInfo(name = "plot") val plot: String?,
+    @PrimaryKey(autoGenerate = true) val dbId: Long = 0,
+    @ColumnInfo val id: String,
+    @ColumnInfo val title: String,
+    @ColumnInfo val year: String?,
+    @ColumnInfo val genre: String?,
+    @ColumnInfo val director: String?,
+    @ColumnInfo val actors: String?,
+    @ColumnInfo val plot: String?,
     @Ignore val images: List<String>,
-    @Ignore val trailer: String,
-    @Ignore val rating: String?,
+    val trailer: String,
+    val rating: String?,
+    var isFavourite: Boolean = false,
 
-    //@ColumnInfo(name = "initialIsFavourite") val initialIsFavourite: Boolean = false,
-    @Ignore val playerPositionWhenStops: Long = 0,
-    @Ignore val playerIsPlaying: Boolean = true,
-    @ColumnInfo(name = "favourite") var isFavourite: MutableState<Boolean> = mutableStateOf(false)
+    var playerPositionWhenStops: Long = 0,
+    var playerIsPlaying: Boolean = true
 ){
-    var playerReset by mutableLongStateOf(playerPositionWhenStops)
-    var playerPlays by mutableStateOf(playerIsPlaying)
+    constructor(    //24.05.04 https://stackoverflow.com/questions/44485631/room-persistence-errorentities-and-pojos-must-have-a-usable-public-constructor
+        dbId: Long,
+        id: String,
+        title: String,
+        year: String?,
+        genre: String?,
+        director: String?,
+        actors: String?,
+        plot: String?,
+
+        trailer: String,
+        rating: String?,
+        isFavourite: Boolean,
+        playerPositionWhenStops: Long,
+        playerIsPlaying: Boolean
+    )
+            : this(
+        dbId, id, title, year, genre, director, actors, plot, emptyList(),
+        trailer, rating, isFavourite, playerPositionWhenStops, playerIsPlaying)
 }
 fun getDefaultMovies(): List<Movie> {
     return listOf(
         Movie(
-            id = 0,
+            dbId = 0,
+            id = "",
             title = "I don't wanna watch movies",
             year = "neverEver",
             genre = "not",
@@ -52,7 +69,8 @@ fun getDefaultMovies(): List<Movie> {
 
 fun getMovies(): List<Movie> { //aws movie images
     return listOf(
-        Movie(id = 499549,
+        Movie(dbId = 499549,
+            id = "tt0499549",
             title = "Avatar",
             year = "2009",
             genre = "Action, Adventure, Fantasy",
@@ -67,7 +85,8 @@ fun getMovies(): List<Movie> { //aws movie images
             trailer = "trailer_placeholder",
             rating = "7.9"),
 
-        Movie(id = 416449,
+        Movie(dbId = 416449,
+            id = "tt0416449",
             title = "300",
             year = "2006",
             genre = "Action, Drama, Fantasy",
@@ -81,7 +100,8 @@ fun getMovies(): List<Movie> { //aws movie images
             trailer = "trailer_placeholder",
             rating = "7.7"),
 
-        Movie(id = 848228,
+        Movie(dbId = 848228,
+            id = "tt0848228",
             title = "The Avengers",
             year = "2012",
             genre = "Action, Sci-Fi, Thriller",
@@ -96,7 +116,8 @@ fun getMovies(): List<Movie> { //aws movie images
             trailer = "trailer_placeholder",
             rating = "8.1"),
 
-        Movie(id = 993846,
+        Movie(dbId = 993846,
+            id = "tt0993846",
             title = "The Wolf of Wall Street",
             year = "2013",
             genre = "Biography, Comedy, Crime",
@@ -111,7 +132,8 @@ fun getMovies(): List<Movie> { //aws movie images
             trailer = "trailer_placeholder",
             rating = "8.2"),
 
-        Movie(id = 816692,
+        Movie(dbId = 816692,
+            id = "tt0816692",
             title = "Interstellar",
             year = "2014",
             genre = "Adventure, Drama, Sci-Fi",
@@ -126,7 +148,8 @@ fun getMovies(): List<Movie> { //aws movie images
             trailer = "trailer_placeholder",
             rating = "8.6"),
 
-        Movie(id = 944947,
+        Movie(dbId = 944947,
+            id = "tt0944947",
             title = "Game of Thrones",
             year = "2011 - 2018",
             genre = "Adventure, Drama, Fantasy",
@@ -142,7 +165,8 @@ fun getMovies(): List<Movie> { //aws movie images
             rating = "9.5"),
 
 
-        Movie(id = 2306299,
+        Movie(dbId = 2306299,
+            id = "tt2306299",
             title = "Vikings",
             year = "2013–2020",
             genre = "Action, Drama, History",
@@ -157,7 +181,8 @@ fun getMovies(): List<Movie> { //aws movie images
             trailer = "trailer_placeholder",
             rating = "9.5"),
 
-        Movie(id = 903747,
+        Movie(dbId = 903747,
+            id = "tt0903747",
             title = "Breaking Bad",
             year = "2008–2013",
             genre = "Crime, Drama, Thriller",
@@ -172,7 +197,8 @@ fun getMovies(): List<Movie> { //aws movie images
             trailer = "trailer_placeholder",
             rating = "9.5"),
 
-        Movie(id = 2707408,
+        Movie(dbId = 2707408,
+            id = "tt2707408",
             title = "Narcos",
             year = "2015-",
             genre = "Biography, Crime, Drama",
