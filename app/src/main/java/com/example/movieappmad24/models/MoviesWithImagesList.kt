@@ -1,52 +1,7 @@
 package com.example.movieappmad24.models
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.Ignore
-import androidx.room.PrimaryKey
-
-@Entity
-data class Movie(
-    @PrimaryKey(autoGenerate = true) val dbId: Long = 0,
-    @ColumnInfo val id: String,
-    @ColumnInfo val title: String,
-    @ColumnInfo val year: String?,
-    @ColumnInfo val genre: String?,
-    @ColumnInfo val director: String?,
-    @ColumnInfo val actors: String?,
-    @ColumnInfo val plot: String?,
-    @Ignore val images: List<String>,
-    @ColumnInfo val trailer: String,
-    @ColumnInfo val rating: String?,
-    var isFavourite: Boolean = false,
-
-    var playerPositionWhenStops: Long = 0,
-    var playerIsPlaying: Boolean = true
-){
-    constructor(    //24.05.04 https://stackoverflow.com/questions/44485631/room-persistence-errorentities-and-pojos-must-have-a-usable-public-constructor
-        dbId: Long,
-        id: String,
-        title: String,
-        year: String?,
-        genre: String?,
-        director: String?,
-        actors: String?,
-        plot: String?,
-
-        trailer: String,
-        rating: String?,
-        isFavourite: Boolean,
-        playerPositionWhenStops: Long,
-        playerIsPlaying: Boolean
-    )
-            : this(
-        dbId, id, title, year, genre, director, actors, plot, emptyList(),
-        trailer, rating, isFavourite, playerPositionWhenStops, playerIsPlaying)
-}
-
-
-fun getDefaultMovies(): List<Movie> {
-    return listOf(
+val listOfDefaultMovie: List<Movie> =
+    listOf(
         Movie(
             dbId = 0,
             id = "",
@@ -63,9 +18,8 @@ fun getDefaultMovies(): List<Movie> {
             playerIsPlaying = true
         ),
     )
-}
-fun getMovies(): List<Movie> { //aws movie images
-    return listOf(
+val ListOfAllMovies: List<Movie> = //aws movie images
+    listOf(
         Movie(dbId = 499549,
             id = "tt0499549",
             title = "Avatar",
@@ -211,4 +165,3 @@ fun getMovies(): List<Movie> { //aws movie images
             rating = "9.5"),
 
         )
-}

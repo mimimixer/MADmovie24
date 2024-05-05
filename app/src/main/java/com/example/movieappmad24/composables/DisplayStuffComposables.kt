@@ -37,11 +37,14 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.movieappmad24.R
 import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MovieWithImages
 import com.example.movieappmad24.viewmodels.MoviesViewModel
 import com.example.movieappmad24.models.Screen
 import kotlinx.coroutines.launch
@@ -49,7 +52,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MovieList (
     values: PaddingValues,
-    movies: List<Movie>,
+    movies: List<MovieWithImages>,
     navController: NavController,
     viewModel: MoviesViewModel
 ){
@@ -61,7 +64,7 @@ fun MovieList (
     ) {
         items(movies) { movie ->
             MovieCard(
-                movie,
+                movie.movie,
                 onItemClick = { movieId -> //this is what is called MovieRow in the exercises
                 navController.navigate(route = "${Screen.Detail.route}/$movieId")},
                 onFavouriteClick = {movie ->

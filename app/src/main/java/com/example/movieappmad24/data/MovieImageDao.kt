@@ -1,5 +1,6 @@
 package com.example.movieappmad24.data
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
@@ -8,6 +9,7 @@ import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.MovieImage
 import kotlinx.coroutines.flow.Flow
 
+@Dao
 interface MovieImageDao {
 
     @Insert
@@ -19,7 +21,7 @@ interface MovieImageDao {
     @Query("SELECT * FROM movieImage WHERE imageId = :id")
     fun getSingleMovieImage (id: Long): Flow<MovieImage>
 
-    @Query("SELECT * FROM movieImage WHERE movieID = :id")
+    @Query("SELECT * FROM movieImage WHERE movieDBid = :id")
     fun getMovieImagesToMovieByID (id: String): Flow<List<MovieImage>>
 
     @Query("SELECT * FROM movieImage WHERE  movieTitle = :id")

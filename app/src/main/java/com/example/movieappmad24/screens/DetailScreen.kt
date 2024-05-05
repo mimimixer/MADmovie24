@@ -64,7 +64,7 @@ fun DetailScreen(movieId: String?, navController: NavController){ //, moviesView
         val moviesState by viewModel.movieList.collectAsState()
         val coroutineScope = rememberCoroutineScope()
 
-        moviesState.find { it.id.equals(movieId) }?.let {
+        moviesState.find { it.movie.dbId.equals(movieId) }?.let {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
@@ -73,7 +73,7 @@ fun DetailScreen(movieId: String?, navController: NavController){ //, moviesView
             ) {
                 item {
                     MovieCard(
-                        movie = it,
+                        movie = it.movie,
                         onItemClick = {
                             //movieId -> //this is what is called MovieRow in the exercises
                             //navController.navigate(route = "${Screen.Detail.route}/$movieId")
@@ -84,8 +84,8 @@ fun DetailScreen(movieId: String?, navController: NavController){ //, moviesView
                             }
                         }
                     ) //this is what is called MovieRow in the exercises
-                    PlayerTrailer(it, viewModel)
-                    PosterHorizontalScroll(movie = it, sizeDp = 250)
+                    PlayerTrailer(it.movie, viewModel)
+                    PosterHorizontalScroll(movie = it.movie, sizeDp = 250)
                 }
             }
         }
