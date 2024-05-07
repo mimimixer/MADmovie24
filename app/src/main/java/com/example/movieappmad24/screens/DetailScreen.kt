@@ -19,12 +19,7 @@ import com.example.movieappmad24.composables.PlayerTrailer
 import com.example.movieappmad24.composables.PosterHorizontalScroll
 import com.example.movieappmad24.composables.SimpleBottomAppBar
 import com.example.movieappmad24.composables.SimpleTopAppBar
-import com.example.movieappmad24.data.MovieDatabase
-import com.example.movieappmad24.data.MovieRepository
-import com.example.movieappmad24.viewmodels.MoviesViewModel
-import com.example.movieappmad24.models.getMovies
 import com.example.movieappmad24.viewmodels.DetailScreenViewModel
-import com.example.movieappmad24.viewmodels.MovieViewModelFactory
 import kotlinx.coroutines.launch
 
 
@@ -44,7 +39,7 @@ fun DetailScreen(movieID: String?, navController: NavController){ //, moviesView
 
     Scaffold(
         topBar = {
-            moviesState.find {it.movie.id.equals(movieID)}?.movie?.let {
+            moviesState.find { it.movie.id == movieID }?.movie?.let {
                 SimpleTopAppBar(
                     topBarText = it.title,
                     backArrow = true,
@@ -57,9 +52,9 @@ fun DetailScreen(movieID: String?, navController: NavController){ //, moviesView
         }
     ) { values ->
         //val moviesState by viewModel.movieListFlow.collectAsState()
-        println("moviesstate is this : $moviesState")
+        println("moviesState is this : $moviesState")
 
-        moviesState.find { it.movie.id.equals(movieID) }?.let {
+        moviesState.find { it.movie.id == movieID }?.let {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()

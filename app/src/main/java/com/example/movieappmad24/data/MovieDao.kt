@@ -27,7 +27,7 @@ interface MovieDao {
     @Query("SELECT * FROM movie")
     //fun getAllMovies(): List <Movie>
     fun getAllMovies(): Flow<List <Movie>>
-    @Query("SELECT * FROM movie WHERE isFavourite = true")
+    @Query("SELECT * FROM movie WHERE isFavourite = 1")
     //fun getAllFavouriteMovies(): List< Movie>
     fun getAllFavouriteMovies(): Flow<List< Movie>>
 
@@ -65,7 +65,7 @@ interface MovieDao {
     @Query("SELECT * FROM Movie")
     fun getAllMoviesWithImages(): Flow<List <MovieWithImages>>
     @Transaction
-    @Query("SELECT * FROM Movie WHERE isFavourite = true")
+    @Query("SELECT * FROM Movie WHERE isFavourite = 1")
     fun getAllFavouriteMoviesWithImages(): Flow<List< MovieWithImages>>
 
     //@Transaction

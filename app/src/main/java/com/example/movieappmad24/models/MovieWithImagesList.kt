@@ -15,6 +15,7 @@ val ListOfDefaultMovie: List<MovieWithImages> =
                 images = listOf("https://www.publicdomainpictures.net/pictures/280000/velka/just-say-no.jpg"),
                 trailer = "trailer_placeholder",
                 rating = "10.0",
+                isFavourite = false,
                 playerPositionWhenStops = 0,
                 playerIsPlaying = true
          ),

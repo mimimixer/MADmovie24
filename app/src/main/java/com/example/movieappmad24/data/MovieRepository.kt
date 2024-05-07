@@ -1,14 +1,9 @@
-package com.example.movieappmad24.data;
+package com.example.movieappmad24.data
 
-import androidx.room.Query
-import com.example.movieappmad24.models.ListOfAllMovies
-import com.example.movieappmad24.models.Movie;
+import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.MovieImage
 import com.example.movieappmad24.models.MovieWithImages
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
 class MovieRepository (private val movieDao: MovieDao) : MovieRepositoryInterface {
     override suspend fun addMovie(movie: Movie) = movieDao.insertMovie(movie)

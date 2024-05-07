@@ -2,13 +2,10 @@ package com.example.movieappmad24.viewmodels
 
 import androidx.lifecycle.viewModelScope
 import com.example.movieappmad24.data.MovieRepository
-import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.MovieWithImages
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 class WatchlistScreenViewModel(repository: MovieRepository, movieID: String?): MoviesViewModel(repository, movieID) {
@@ -21,7 +18,7 @@ class WatchlistScreenViewModel(repository: MovieRepository, movieID: String?): M
         viewModelScope.launch {
             println("watchlistviewmodel")
             repository.getFavoriteMoviesWithImages().distinctUntilChanged()
-                .collect { listOfMovies -> //susspend function call!
+                .collect { listOfMovies -> //suspend function call!
                     movieList.value = listOfMovies
                 }
         }

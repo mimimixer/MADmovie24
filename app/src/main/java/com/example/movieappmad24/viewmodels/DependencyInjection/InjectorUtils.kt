@@ -1,11 +1,8 @@
 package com.example.movieappmad24.viewmodels.DependencyInjection
 
 import android.content.Context
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.movieappmad24.data.MovieDatabase
 import com.example.movieappmad24.data.MovieRepository
-import com.example.movieappmad24.viewmodels.HomeScreenViewModel
 import com.example.movieappmad24.viewmodels.MovieViewModelFactory
 
 object InjectorUtils { //like static class in Java

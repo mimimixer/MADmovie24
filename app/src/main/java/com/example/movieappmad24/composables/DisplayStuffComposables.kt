@@ -145,7 +145,7 @@ fun MovieCard(
     var clickedArrow by remember {
         mutableStateOf(false)
     }
-/*    val heartyToClick by rememberSaveable {
+/*    val heartyToClick by rememberSavable {
         mutableStateOf(true)
     }*/
     Card(
@@ -153,16 +153,15 @@ fun MovieCard(
             .fillMaxWidth()
             .padding(3.dp)
             .clickable {
-                onItemClick(movie.id.toString())
+                onItemClick(movie.id)
             },
         shape = MaterialTheme.shapes.large, //rounded corner
         elevation = CardDefaults.cardElevation(40.dp)
     ) {
-        var picsize: Int
-        if(LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT){
-            picsize = 150
+        val picsize: Int = if(LocalConfiguration.current.orientation == Configuration.ORIENTATION_PORTRAIT){
+            150
         } else {
-            picsize=300
+            300
         }
         Column {
             Box(

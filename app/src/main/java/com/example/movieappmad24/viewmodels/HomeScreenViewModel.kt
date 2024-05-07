@@ -2,10 +2,7 @@ package com.example.movieappmad24.viewmodels
 
 import androidx.lifecycle.viewModelScope
 import com.example.movieappmad24.data.MovieRepository
-import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.MovieWithImages
-import com.example.movieappmad24.models.getMovies
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -20,7 +17,7 @@ class HomeScreenViewModel (repository: MovieRepository, movieID: String?): Movie
         viewModelScope.launch {
             println("homeviewmodel")
             repository.getAllMoviesWithImages().distinctUntilChanged()
-                .collect { listOfMovies ->          //susspend function call!
+                .collect { listOfMovies ->          //suspend function call!
                     movieList.value = listOfMovies
                     //println("original list of movies is ${getMovies()}")
                     //println("got movies for homescreen: ${listOfMovies}")

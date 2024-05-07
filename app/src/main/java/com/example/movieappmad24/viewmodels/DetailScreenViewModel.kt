@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.movieappmad24.data.MovieRepository
-import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.MovieWithImages
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,9 +21,9 @@ class DetailScreenViewModel (repository: MovieRepository, movieID: String): Movi
 
         init {
             viewModelScope.launch {
-                println("detalviewmodel")
+                println("detailviewmodel")
                 repository.getMovieWithImagesById(movieID).distinctUntilChanged()
-                    .collect { listOfMovies ->          //susspend function call!
+                    .collect { listOfMovies ->          //suspend function call!
                     movieList.value = listOfMovies
                     }
             }

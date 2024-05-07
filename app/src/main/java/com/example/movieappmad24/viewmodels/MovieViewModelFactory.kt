@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.movieappmad24.data.MovieRepository
 
+@Suppress("UNCHECKED_CAST")
 class MovieViewModelFactory (
     private val repository: MovieRepository, val movieID: String?) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

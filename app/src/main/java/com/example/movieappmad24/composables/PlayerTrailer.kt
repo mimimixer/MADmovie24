@@ -1,10 +1,12 @@
 package com.example.movieappmad24.composables
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -24,6 +26,7 @@ import com.example.movieappmad24.viewmodels.DetailScreenViewModel
 import kotlinx.coroutines.launch
 
 
+@SuppressLint("DiscouragedApi")
 @Composable
 fun PlayerTrailer (currentMovie: Movie, moviesViewModel: DetailScreenViewModel){
 
@@ -32,7 +35,7 @@ fun PlayerTrailer (currentMovie: Movie, moviesViewModel: DetailScreenViewModel){
     }
 
     var playerPosition by remember {
-        mutableStateOf(moviesViewModel.playerPositionOfDetailScreen)
+        mutableLongStateOf(moviesViewModel.playerPositionOfDetailScreen)
     }
     var playerPlays by remember {
         mutableStateOf(moviesViewModel.detailScreenPlayerIsPlaying)
@@ -45,8 +48,8 @@ fun PlayerTrailer (currentMovie: Movie, moviesViewModel: DetailScreenViewModel){
 
     val movieTrailer = MediaItem.fromUri(
             //"https://file-examples.com/storage/fe793dd9be65a9b389251ea/2017/04/file_example_MP4_480_1_5MG.mp4"
-        //"android.resource://${context.packageName}/${trailerLocation}"
-        "android.resource://${context.packageName}/${R.raw.mon_film}"
+        "android.resource://${context.packageName}/${trailerLocation}"
+        //"android.resource://${context.packageName}/${R.raw.mon_film}"
 
     )
     val exoPlayer = remember {

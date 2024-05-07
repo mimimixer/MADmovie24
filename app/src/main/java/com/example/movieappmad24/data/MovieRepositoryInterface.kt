@@ -1,6 +1,5 @@
 package com.example.movieappmad24.data
 
-import androidx.room.Query
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.MovieImage
 import com.example.movieappmad24.models.MovieWithImages

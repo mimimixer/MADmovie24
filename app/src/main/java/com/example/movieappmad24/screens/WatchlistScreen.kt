@@ -7,14 +7,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.movieappmad24.viewmodels.DependencyInjection.InjectorUtils
 import com.example.movieappmad24.composables.MovieList
 import com.example.movieappmad24.composables.SimpleBottomAppBar
 import com.example.movieappmad24.composables.SimpleTopAppBar
-import com.example.movieappmad24.data.MovieDatabase
-import com.example.movieappmad24.data.MovieRepository
-import com.example.movieappmad24.viewmodels.MoviesViewModel
-import com.example.movieappmad24.viewmodels.MovieViewModelFactory
+import com.example.movieappmad24.models.ListOfDefaultMovie
+import com.example.movieappmad24.viewmodels.DependencyInjection.InjectorUtils
 import com.example.movieappmad24.viewmodels.WatchlistScreenViewModel
 
 @Composable
@@ -50,7 +47,7 @@ fun WatchlistScreen(navController: NavController){ //,, moviesViewModel: MoviesV
         if(moviesState.isEmpty()){
             MovieList(
                 values = values,
-                movieWithImages = moviesState,
+                movieWithImages = ListOfDefaultMovie,
                 navController = navController,
                 viewModel = viewModel
             )
