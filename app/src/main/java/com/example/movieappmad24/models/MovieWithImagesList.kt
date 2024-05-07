@@ -1,23 +1,34 @@
 package com.example.movieappmad24.models
 
-val listOfDefaultMovie: List<Movie> =
+val ListOfDefaultMovie: List<MovieWithImages> =
     listOf(
-        Movie(
-            dbId = 0,
-            id = "",
-            title = "I don't wanna watch movies",
-            year = "neverEver",
-            genre = "not",
-            director = "me",
-            actors = "also me, myself, and I",
-            plot = "I have better things to do",
-            images = listOf("https://www.publicdomainpictures.net/pictures/280000/velka/just-say-no.jpg"),
-            trailer = "trailer_placeholder",
-            rating = "10.0",
-            playerPositionWhenStops = 0,
-            playerIsPlaying = true
-        ),
+        MovieWithImages(
+            Movie(
+                dbId = 0,
+               id = "",
+                title = "I don't wanna watch movies",
+                year = "neverEver",
+                genre = "not",
+               director = "me",
+                actors = "also me, myself, and I",
+                plot = "I have better things to do",
+                images = listOf("https://www.publicdomainpictures.net/pictures/280000/velka/just-say-no.jpg"),
+                trailer = "trailer_placeholder",
+                rating = "10.0",
+                playerPositionWhenStops = 0,
+                playerIsPlaying = true
+         ),
+            listOf(
+                MovieImage(
+                    imageId = 0,
+                    movieDBid = 0,
+                    movieTitle = "I don't wanna watch movies",
+                    image = "https://www.publicdomainpictures.net/pictures/280000/velka/just-say-no.jpg"
+                )
+            )
+        )
     )
+
 val ListOfAllMovies: List<Movie> = //aws movie images
     listOf(
         Movie(dbId = 499549,

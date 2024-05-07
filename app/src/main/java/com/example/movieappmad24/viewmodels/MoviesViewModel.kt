@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
 // Inherit from ViewModel class
-abstract class MoviesViewModel (val repository : MovieRepository): ViewModel() {
+abstract class MoviesViewModel (val repository : MovieRepository, movieID: String?): ViewModel() {
 
     // val repository : MovieRepository = TODO()
 

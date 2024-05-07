@@ -21,6 +21,7 @@ interface MovieDao {
     @Query("SELECT * FROM movie WHERE dbId = :id")
     // fun getMovieById (id: Long): Movie
     fun getMovieById (id: Long): Flow<Movie>
+
     @Query("SELECT * FROM movie WHERE  title = :title")
     fun getMovieByTitle (title: String): Flow<List<Movie>>
     @Query("SELECT * FROM movie")
@@ -50,8 +51,11 @@ interface MovieDao {
     suspend fun deleteMovieWithImage (movieWithImages: MovieWithImages)
  */
     @Transaction
-    @Query("SELECT * FROM Movie WHERE dbId = :id")
-    fun getMovieWithImagesById (id: Long): Flow<List<MovieWithImages?>>
+    @Query("SELECT * FROM Movie WHERE dbId = :dbid")
+    fun getMovieWithImagesByDBId (dbid: Long): Flow<List<MovieWithImages>>
+    @Transaction
+    @Query("SELECT * FROM Movie WHERE id = :id")
+    fun getMovieWithImagesById (id: String): Flow<List<MovieWithImages>>
 
     @Transaction
     @Query("SELECT * FROM Movie WHERE  title = :title")
@@ -63,4 +67,8 @@ interface MovieDao {
     @Transaction
     @Query("SELECT * FROM Movie WHERE isFavourite = true")
     fun getAllFavouriteMoviesWithImages(): Flow<List< MovieWithImages>>
+
+    //@Transaction
+    //@Query("DROP TABLE movie_db")
+    //fun deleteDatabase(): Unit
 }

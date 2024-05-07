@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.movieappmad24.DependencyInjection.InjectorUtils
+import com.example.movieappmad24.viewmodels.DependencyInjection.InjectorUtils
 import com.example.movieappmad24.composables.MovieCard
 import com.example.movieappmad24.composables.PlayerTrailer
 import com.example.movieappmad24.composables.PosterHorizontalScroll
@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun DetailScreen(movieId: String?, navController: NavController){ //, moviesViewModel: MoviesViewModel) {
+fun DetailScreen(movieID: String?, navController: NavController){ //, moviesViewModel: MoviesViewModel) {
 
     /*
     val db = MovieDatabase.getDatabase(LocalContext.current)
@@ -38,39 +38,28 @@ fun DetailScreen(movieId: String?, navController: NavController){ //, moviesView
     val viewModel : DetailScreenViewModel = viewModel(factory = factory)
      */
     val viewModel: DetailScreenViewModel =
-        viewModel(factory = InjectorUtils.provideMovieViewModelFactory(LocalContext.current))
+        viewModel(factory = InjectorUtils.provideMovieViewModelFactory(LocalContext.current, movieID))
+    val moviesState by viewModel.movieListFlow.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
-            SimpleTopAppBar(
-                topBarText = "${getMovies().find { it.id.equals(movieId)}?.title}",
-                backArrow = true,
-                navController = navController
-            )
+            moviesState.find {it.movie.id.equals(movieID)}?.movie?.let {
+                SimpleTopAppBar(
+                    topBarText = it.title,
+                    backArrow = true,
+                    navController = navController
+                )
+            }
         },
         bottomBar = {
             SimpleBottomAppBar(navController)
         }
     ) { values ->
-        /*Text(
-                modifier = Modifier.clickable {
-                    // navController.popBackStack()
-                    navController.navigate(Screen.Home.route) {
-                        popUpTo(Screen.Home.route) {
-                            inclusive = true
-                        }
-                    }
-                },
-                text = "Hello detailscreen $movieId",
-                color = Color.Red,
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.headlineLarge
-            )*/
-        val moviesState by viewModel.movieListFlow.collectAsState()
+        //val moviesState by viewModel.movieListFlow.collectAsState()
         println("moviesstate is this : $moviesState")
-        val coroutineScope = rememberCoroutineScope()
 
-        moviesState.find { it.movie.dbId.equals(movieId) }?.let {
+        moviesState.find { it.movie.id.equals(movieID) }?.let {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()

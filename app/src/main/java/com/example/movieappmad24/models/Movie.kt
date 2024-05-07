@@ -42,6 +42,10 @@ data class Movie(
             : this(
         dbId, id, title, year, genre, director, actors, plot, emptyList(),
         trailer, rating, isFavourite, playerPositionWhenStops, playerIsPlaying)
+
+    override fun equals(other: Any?): Boolean {
+        return super.equals(other)
+    }
 }
 
 

@@ -38,9 +38,11 @@ fun Navigation(){
             val movietitle = getMovies()
                 .find{ it.id.equals(backStackEntry.arguments?.getString(DETAIL_SCREEN_KEY))}?.title
             Log.d("Args", "$movietitle")
-            DetailScreen(movieId = backStackEntry.arguments?.getString(DETAIL_SCREEN_KEY),
-                navController = navController,
-            )// moviesViewModel = moviesViewModel)
+            println("detailscreenkey, also movieID is ${backStackEntry.arguments?.getString(DETAIL_SCREEN_KEY)}")
+                DetailScreen(movieID = backStackEntry.arguments?.getString(DETAIL_SCREEN_KEY),
+                    navController = navController
+                )
+            // moviesViewModel = moviesViewModel)
         }
         composable(route = Screen.Watchlist.route
             /*arguments = listOf(

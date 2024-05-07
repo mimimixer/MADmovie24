@@ -1,4 +1,4 @@
-package com.example.movieappmad24.data
+package com.example.movieappmad24.data.worker
 
 import android.app.Notification
 import android.content.Context
@@ -6,25 +6,27 @@ import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.movieappmad24.R
+import com.example.movieappmad24.data.MovieDatabase
+import com.example.movieappmad24.data.MovieRepository
+import com.example.movieappmad24.models.ListOfAllMovies
 import com.example.movieappmad24.models.Movie
-import com.example.movieappmad24.models.createMovieImage
 import com.example.movieappmad24.models.getMovies
 
-private const val TAG = "SeedMovieDatabaseWorker"
+private const val TAGm = "SeedMovieDatabaseWorker"
 class SeedMovieDatabaseWorker(private val context: Context, params: WorkerParameters) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
         makeStatusNotification(
-            applicationContext.resources.getString(R.string.seed_worker),
+            applicationContext.resources.getString(R.string.seed_movie_worker),
             applicationContext
         )
         return try {
             val movieDao = MovieDatabase.getDatabase(context).movieDao()
             val repo = MovieRepository(movieDao)
-            val movies = getMovies()
-            movies.forEach(){movie: Movie ->
-                repo.addMovies(movie)
-                //println("movie dbid# ${movie.dbId} and title ${movie.title} added")
+            val movies = ListOfAllMovies
+            movies.forEach{movie: Movie ->
+                repo.addMovie(movie)
+                println("movie dbid# ${movie.dbId} and title ${movie.title} added")
                /* movie.images.forEach(){it ->
                     val movieImage = createMovieImage(movie, it)
                     repo.addMovieImage(movieImage)
@@ -43,7 +45,7 @@ class SeedMovieDatabaseWorker(private val context: Context, params: WorkerParame
             }*/
             Result.success()
         } catch (throwable: Throwable) {
-            Log.e(TAG, applicationContext.resources.getString(R.string.seed_worker), throwable)
+            Log.e(TAGm, applicationContext.resources.getString(R.string.seed_movie_worker), throwable)
             Result.failure()
         }
     }

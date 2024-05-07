@@ -18,7 +18,9 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.media3.common.MediaItem
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
+import com.example.movieappmad24.R
 import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MovieWithImages
 import com.example.movieappmad24.viewmodels.DetailScreenViewModel
 import com.example.movieappmad24.viewmodels.MoviesViewModel
 import kotlinx.coroutines.launch
@@ -38,8 +40,8 @@ fun PlayerTrailer (currentMovie: Movie, moviesViewModel: DetailScreenViewModel){
 
     val movieTrailer = MediaItem.fromUri(
             //"https://file-examples.com/storage/fe793dd9be65a9b389251ea/2017/04/file_example_MP4_480_1_5MG.mp4"
-        "android.resource://${context.packageName}/${trailerLocation}"
-        //"android.resource://${context.packageName}/${R.raw.mon_film}"
+        //"android.resource://${context.packageName}/${trailerLocation}"
+        "android.resource://${context.packageName}/${R.raw.mon_film}"
 
     )
     val exoPlayer = remember {

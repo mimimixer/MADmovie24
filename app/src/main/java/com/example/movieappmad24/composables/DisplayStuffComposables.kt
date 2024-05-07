@@ -67,8 +67,8 @@ fun MovieList (
             MovieCard(
                 movieItem.movie,
                 movieImage = movieItem.movieImages,
-                onItemClick = { movieID -> //this is what is called MovieRow in the exercises
-                    navController.navigate(route = "${Screen.Detail.route}/${movieID}")},
+                onItemClick = {
+                    navController.navigate(route = "${Screen.Detail.route}/${movieItem.movie.id}")},
                 onFavouriteClick = {movie ->
                     coroutineScope.launch{
                         viewModel.toggleFavoriteMovie(movie)

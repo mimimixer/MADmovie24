@@ -7,7 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.movieappmad24.DependencyInjection.InjectorUtils
+import com.example.movieappmad24.viewmodels.DependencyInjection.InjectorUtils
 import com.example.movieappmad24.composables.MovieList
 import com.example.movieappmad24.composables.SimpleBottomAppBar
 import com.example.movieappmad24.composables.SimpleTopAppBar
@@ -26,7 +26,7 @@ fun WatchlistScreen(navController: NavController){ //,, moviesViewModel: MoviesV
     val viewModel : WatchlistScreenViewModel = viewModel(factory = factory)
  */
     val viewModel: WatchlistScreenViewModel =
-        viewModel(factory = InjectorUtils.provideMovieViewModelFactory(LocalContext.current))
+        viewModel(factory = InjectorUtils.provideMovieViewModelFactory(LocalContext.current, null))
 
     Scaffold(
         topBar = {

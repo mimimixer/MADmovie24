@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
-class DetailScreenViewModel (repository: MovieRepository): MoviesViewModel(repository) {
+class DetailScreenViewModel (repository: MovieRepository, movieID: String): MoviesViewModel(repository, movieID) {
 
 
         //private val _movieList = MutableStateFlow(listOf<MovieWithImages>())  //private, so not accessible from
@@ -20,7 +20,7 @@ class DetailScreenViewModel (repository: MovieRepository): MoviesViewModel(repos
         init {
             viewModelScope.launch {
                 println("detalviewmodel")
-                repository.getAllMoviesWithImages().distinctUntilChanged()
+                repository.getMovieWithImagesById(movieID).distinctUntilChanged()
                     .collect { listOfMovies ->          //susspend function call!
                     movieList.value = listOfMovies
                     }

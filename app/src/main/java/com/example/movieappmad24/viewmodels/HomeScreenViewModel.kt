@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 
-class HomeScreenViewModel (repository: MovieRepository): MoviesViewModel(repository) {
+class HomeScreenViewModel (repository: MovieRepository, movieID: String?): MoviesViewModel(repository, movieID) {
 
     //private val _movieList = MutableStateFlow(listOf<MovieWithImages>())  //private, so not accessible from
     // outside the viewModel

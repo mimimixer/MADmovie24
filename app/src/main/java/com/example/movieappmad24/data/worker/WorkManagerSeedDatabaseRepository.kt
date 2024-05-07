@@ -1,18 +1,19 @@
-package com.example.movieappmad24.data
+package com.example.movieappmad24.data.worker
 
 import android.content.Context
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import androidx.work.WorkRequest
-import com.example.movieappmad24.models.Movie
-import com.example.movieappmad24.models.MovieImage
-import com.example.movieappmad24.models.MovieWithImages
-import kotlinx.coroutines.flow.Flow
+import com.example.movieappmad24.data.worker.SeedDatabaseWorker
+import com.example.movieappmad24.data.worker.SeedImageDatabaseWorker
+import com.example.movieappmad24.data.worker.SeedMovieDatabaseWorker
 
 class WorkManagerSeedDatabaseRepository (context: Context) {
 
     private val workManager = WorkManager.getInstance(context)
 
+    fun seedAll(){
+        workManager.enqueue(OneTimeWorkRequestBuilder<SeedDatabaseWorker>().build())
+    }
     fun seedMovie(){
         workManager.enqueue(OneTimeWorkRequestBuilder<SeedMovieDatabaseWorker>().build())
     }

@@ -1,4 +1,4 @@
-package com.example.movieappmad24.DependencyInjection
+package com.example.movieappmad24.viewmodels.DependencyInjection
 
 import android.content.Context
 import androidx.compose.ui.platform.LocalContext
@@ -14,8 +14,8 @@ object InjectorUtils { //like static class in Java
     private fun getMovieRepository(context: Context) :MovieRepository {
         return MovieRepository.getRepositoryInstance(MovieDatabase.getDatabase(context.applicationContext).movieDao())
     }
-    fun provideMovieViewModelFactory(context: Context): MovieViewModelFactory{
+    fun provideMovieViewModelFactory(context: Context, movieID: String?): MovieViewModelFactory{
         val repository = getMovieRepository(context)
-        return MovieViewModelFactory(repository)
+        return MovieViewModelFactory(repository, movieID)
     }
 }

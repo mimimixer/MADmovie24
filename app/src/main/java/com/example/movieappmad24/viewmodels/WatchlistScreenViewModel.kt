@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
-class WatchlistScreenViewModel(repository: MovieRepository): MoviesViewModel(repository) {
+class WatchlistScreenViewModel(repository: MovieRepository, movieID: String?): MoviesViewModel(repository, movieID) {
 
     //private val _movieList = MutableStateFlow(listOf<MovieWithImages>())  //private, so not accessible from
     // outside the viewModel

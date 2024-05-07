@@ -9,7 +9,7 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 
-const val DETAIL_SCREEN_KEY = "movieId"
+const val DETAIL_SCREEN_KEY = "movieID"
 sealed class Screen(
     val title: String,
     val selectedIcon: ImageVector,
