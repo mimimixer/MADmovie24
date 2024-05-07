@@ -1,10 +1,13 @@
 package com.example.movieappmad24.viewmodels
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.example.movieappmad24.data.MovieRepository
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.MovieWithImages
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -28,19 +31,26 @@ class DetailScreenViewModel (repository: MovieRepository, movieID: String): Movi
         }
     val movieListFlow: StateFlow<List<MovieWithImages>> = movieList.asStateFlow() //accessible, but not mutable
 
+    var playerPositionOfDetailScreen by mutableLongStateOf(0)
 
-    suspend fun setCurrentPosition(movie: Movie, position: Long) {
-        movie.playerPositionWhenStops = position
-        repository.updateMovie(movie)
+    var detailScreenPlayerIsPlaying by mutableStateOf(false)
+
+  /*  fun setCurrentPosition(movie: Movie, position: Long) {
+        //movie.playerReset = position
+        playerPositionOfDetailScreen = position
+        //repository.updateMovie(movie)
     }
 
 
     suspend fun togglePlayer (movie: Movie, plays: Boolean) {
         if(plays) {
-            movie.playerIsPlaying = true
+            //movie.playerPlays = true
+            detailScreenPlayerIsPlaying = true
         }else{
-            movie.playerIsPlaying = false
+            //movie.playerPlays = false
+            detailScreenPlayerIsPlaying = false
         }
-        repository.updateMovie(movie)
-    }
+        //repository.updateMovie(movie)
+    }*/
+
 }

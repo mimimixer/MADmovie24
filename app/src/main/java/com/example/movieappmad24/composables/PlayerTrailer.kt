@@ -20,9 +20,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import com.example.movieappmad24.R
 import com.example.movieappmad24.models.Movie
-import com.example.movieappmad24.models.MovieWithImages
 import com.example.movieappmad24.viewmodels.DetailScreenViewModel
-import com.example.movieappmad24.viewmodels.MoviesViewModel
 import kotlinx.coroutines.launch
 
 
@@ -31,6 +29,13 @@ fun PlayerTrailer (currentMovie: Movie, moviesViewModel: DetailScreenViewModel){
 
     var lifecycle by remember {
         mutableStateOf(Lifecycle.Event.ON_CREATE)
+    }
+
+    var playerPosition by remember {
+        mutableStateOf(moviesViewModel.playerPositionOfDetailScreen)
+    }
+    var playerPlays by remember {
+        mutableStateOf(moviesViewModel.detailScreenPlayerIsPlaying)
     }
 
     val context = LocalContext.current
@@ -46,11 +51,11 @@ fun PlayerTrailer (currentMovie: Movie, moviesViewModel: DetailScreenViewModel){
     )
     val exoPlayer = remember {
         ExoPlayer.Builder(context).build().apply {
-            println("playing again at ${currentMovie.playerPositionWhenStops}")
+            println("playing again at $playerPosition")
             setMediaItem(movieTrailer)
-            seekTo(currentMovie.playerPositionWhenStops)
+            seekTo(playerPosition)
             prepare()
-            if(currentMovie.playerIsPlaying){
+            if(playerPlays){    //moviesViewModel.detailScreenPlayerIsPlaying){
                 playWhenReady = true
             }
         }
@@ -69,8 +74,10 @@ fun PlayerTrailer (currentMovie: Movie, moviesViewModel: DetailScreenViewModel){
 
         onDispose {
             coroutineScope.launch {
-                moviesViewModel.setCurrentPosition(currentMovie, exoPlayer.currentPosition)
-                moviesViewModel.togglePlayer(currentMovie, exoPlayer.isPlaying)
+                playerPosition = exoPlayer.currentPosition
+                //moviesViewModel.setCurrentPosition(currentMovie, exoPlayer.currentPosition)
+                playerPlays = exoPlayer.isPlaying
+                //moviesViewModel.togglePlayer(currentMovie, exoPlayer.isPlaying)
             }
             exoPlayer.release()
             lifecycleOwner.lifecycle.removeObserver(observer)
@@ -91,16 +98,17 @@ fun PlayerTrailer (currentMovie: Movie, moviesViewModel: DetailScreenViewModel){
             when (lifecycle) {
                 Lifecycle.Event.ON_RESUME -> {
                     it.onResume()
-                    it.player?.seekTo(currentMovie.playerPositionWhenStops)
-                    if (currentMovie.playerIsPlaying) {
+                    it.player?.seekTo(playerPosition)
+                    if (playerPlays){ //moviesViewModel.detailScreenPlayerIsPlaying) {
                         it.player?.play()
                     }
                 }
 
                 Lifecycle.Event.ON_STOP -> {
                     coroutineScope.launch{
-                    moviesViewModel.togglePlayer(currentMovie, exoPlayer.isPlaying)
-                    moviesViewModel.setCurrentPosition(currentMovie, it.player?.currentPosition!!)
+                        playerPlays = exoPlayer.isPlaying //moviesViewModel.togglePlayer(currentMovie, exoPlayer.isPlaying)
+                        playerPosition = it.player?.currentPosition!!
+                        //moviesViewModel.setCurrentPosition(currentMovie, it.player?.currentPosition!!)
                         }
                     it.onPause()
                     it.player?.pause() //this makes it continue playing. if I use

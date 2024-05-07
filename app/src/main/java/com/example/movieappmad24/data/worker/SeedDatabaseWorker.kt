@@ -8,6 +8,7 @@ import androidx.work.WorkerParameters
 import com.example.movieappmad24.R
 import com.example.movieappmad24.data.MovieDatabase
 import com.example.movieappmad24.data.MovieRepository
+import com.example.movieappmad24.models.ListOfAllMovies
 import com.example.movieappmad24.models.Movie
 import com.example.movieappmad24.models.createMovieImage
 import com.example.movieappmad24.models.getMovies
@@ -42,7 +43,6 @@ class SeedDatabaseWorker(private val context: Context, params: WorkerParameters)
                 Result.failure()
             }
         }
-
         private fun makeStatusNotification(string: String, applicationContext: Context) {
             Notification()
         }
