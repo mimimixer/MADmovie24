@@ -10,3 +10,13 @@ data class MovieImage(
     @ColumnInfo val movieTitle: String,
     val image: String
 )
+
+fun createMovieImage(movie: Movie, movieImage: String) : MovieImage{
+    return MovieImage(
+            movieDBid = movie.dbId,
+            movieTitle = movie.title,
+            image = movieImage
+        )
+}
+
+

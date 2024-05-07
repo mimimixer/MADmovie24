@@ -13,9 +13,6 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface MovieDao {
     @Insert
-    fun insertMovieList (movieList: List<Movie>)
-
-    @Insert
     suspend fun insertMovie (movie: Movie)
     @Update
     suspend fun updateMovie (movie: Movie)

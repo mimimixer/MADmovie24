@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class DetailScreenViewModel (repository: MovieRepository): MoviesViewModel(repository) {
 
 
-        private val _movieList = MutableStateFlow(listOf<MovieWithImages>())  //private, so not accessible from
+        //private val _movieList = MutableStateFlow(listOf<MovieWithImages>())  //private, so not accessible from
         // outside the viewModel
         //val movieList: StateFlow<List<Movie>> = _movieList.asStateFlow() //accessible, but not mutable
 
@@ -22,10 +22,12 @@ class DetailScreenViewModel (repository: MovieRepository): MoviesViewModel(repos
                 println("detalviewmodel")
                 repository.getAllMoviesWithImages().distinctUntilChanged()
                     .collect { listOfMovies ->          //susspend function call!
-                        _movieList.value = listOfMovies
+                    movieList.value = listOfMovies
                     }
             }
         }
+    val movieListFlow: StateFlow<List<MovieWithImages>> = movieList.asStateFlow() //accessible, but not mutable
+
 
     suspend fun setCurrentPosition(movie: Movie, position: Long) {
         movie.playerPositionWhenStops = position

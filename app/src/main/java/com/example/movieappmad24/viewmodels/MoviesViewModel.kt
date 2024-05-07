@@ -19,9 +19,9 @@ abstract class MoviesViewModel (val repository : MovieRepository): ViewModel() {
 
     // val repository : MovieRepository = TODO()
 
-    private val _movieList = MutableStateFlow(listOf<MovieWithImages>())  //private, so not accessible from
+    val movieList = MutableStateFlow(listOf<MovieWithImages>())  //private, so not accessible from
                                                             // outside the viewModel
-    val movieList: StateFlow<List<MovieWithImages>> = _movieList.asStateFlow() //accessible, but not mutable
+    //val movieListFlow: StateFlow<List<MovieWithImages>> = movieList.asStateFlow() //accessible, but not mutable
 /*
     init {
         viewModelScope.launch {

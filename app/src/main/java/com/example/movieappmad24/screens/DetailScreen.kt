@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.movieappmad24.DependencyInjection.InjectorUtils
 import com.example.movieappmad24.composables.MovieCard
 import com.example.movieappmad24.composables.PlayerTrailer
 import com.example.movieappmad24.composables.PosterHorizontalScroll
@@ -30,10 +31,14 @@ import kotlinx.coroutines.launch
 @Composable
 fun DetailScreen(movieId: String?, navController: NavController){ //, moviesViewModel: MoviesViewModel) {
 
+    /*
     val db = MovieDatabase.getDatabase(LocalContext.current)
     val repository = MovieRepository(movieDao = db.movieDao())
     val factory = MovieViewModelFactory(repository=repository)
     val viewModel : DetailScreenViewModel = viewModel(factory = factory)
+     */
+    val viewModel: DetailScreenViewModel =
+        viewModel(factory = InjectorUtils.provideMovieViewModelFactory(LocalContext.current))
 
     Scaffold(
         topBar = {
@@ -61,7 +66,8 @@ fun DetailScreen(movieId: String?, navController: NavController){ //, moviesView
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.headlineLarge
             )*/
-        val moviesState by viewModel.movieList.collectAsState()
+        val moviesState by viewModel.movieListFlow.collectAsState()
+        println("moviesstate is this : $moviesState")
         val coroutineScope = rememberCoroutineScope()
 
         moviesState.find { it.movie.dbId.equals(movieId) }?.let {
@@ -74,6 +80,7 @@ fun DetailScreen(movieId: String?, navController: NavController){ //, moviesView
                 item {
                     MovieCard(
                         movie = it.movie,
+                        movieImage = it.movieImages,
                         onItemClick = {
                             //movieId -> //this is what is called MovieRow in the exercises
                             //navController.navigate(route = "${Screen.Detail.route}/$movieId")
@@ -85,7 +92,7 @@ fun DetailScreen(movieId: String?, navController: NavController){ //, moviesView
                         }
                     ) //this is what is called MovieRow in the exercises
                     PlayerTrailer(it.movie, viewModel)
-                    PosterHorizontalScroll(movie = it.movie, sizeDp = 250)
+                    PosterHorizontalScroll(movieImages = it.movieImages, sizeDp = 250)
                 }
             }
         }

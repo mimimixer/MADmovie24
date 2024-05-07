@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.movieappmad24.DependencyInjection.InjectorUtils
 import com.example.movieappmad24.composables.MovieList
 import com.example.movieappmad24.composables.SimpleBottomAppBar
 import com.example.movieappmad24.composables.SimpleTopAppBar
@@ -18,11 +19,14 @@ import com.example.movieappmad24.viewmodels.WatchlistScreenViewModel
 
 @Composable
 fun WatchlistScreen(navController: NavController){ //,, moviesViewModel: MoviesViewModel) {
-
+/*
     val db = MovieDatabase.getDatabase(LocalContext.current)
     val repository = MovieRepository(movieDao = db.movieDao())
     val factory = MovieViewModelFactory(repository=repository)
     val viewModel : WatchlistScreenViewModel = viewModel(factory = factory)
+ */
+    val viewModel: WatchlistScreenViewModel =
+        viewModel(factory = InjectorUtils.provideMovieViewModelFactory(LocalContext.current))
 
     Scaffold(
         topBar = {
@@ -41,19 +45,19 @@ fun WatchlistScreen(navController: NavController){ //,, moviesViewModel: MoviesV
                    .padding(values)
            ){*/
         //val listOfMovs = getMovies()
-        val moviesState by viewModel.movieList.collectAsState()
+        val moviesState by viewModel.movieListFlow.collectAsState()
 
         if(moviesState.isEmpty()){
             MovieList(
                 values = values,
-                movies = moviesState,
+                movieWithImages = moviesState,
                 navController = navController,
                 viewModel = viewModel
             )
         }
         MovieList(
             values = values,
-            movies = moviesState,
+            movieWithImages = moviesState,
             navController = navController,
             viewModel = viewModel
         )

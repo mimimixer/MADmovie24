@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class WatchlistScreenViewModel(repository: MovieRepository): MoviesViewModel(repository) {
 
-    private val _movieList = MutableStateFlow(listOf<MovieWithImages>())  //private, so not accessible from
+    //private val _movieList = MutableStateFlow(listOf<MovieWithImages>())  //private, so not accessible from
     // outside the viewModel
     //val movieList: StateFlow<List<Movie>> = _movieList.asStateFlow() //accessible, but not mutable
 
@@ -22,8 +22,10 @@ class WatchlistScreenViewModel(repository: MovieRepository): MoviesViewModel(rep
             println("watchlistviewmodel")
             repository.getFavoriteMoviesWithImages().distinctUntilChanged()
                 .collect { listOfMovies -> //susspend function call!
-                    _movieList.value = listOfMovies
+                    movieList.value = listOfMovies
                 }
         }
     }
+    val movieListFlow: StateFlow<List<MovieWithImages>> = movieList.asStateFlow() //accessible, but not mutable
+
 }

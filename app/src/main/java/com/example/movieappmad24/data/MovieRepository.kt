@@ -6,21 +6,28 @@ import com.example.movieappmad24.models.MovieImage
 import com.example.movieappmad24.models.MovieWithImages
 import kotlinx.coroutines.flow.Flow
 
-class MovieRepository (private val movieDao: MovieDao){
-    fun insertAllMovies() = movieDao.insertMovieList(ListOfAllMovies)
-    suspend fun addMovies(movie: Movie) = movieDao.insertMovie(movie)
-    suspend fun addMovieImage(movieImage: MovieImage) = movieDao.insertMovieImage(movieImage)
+class MovieRepository (private val movieDao: MovieDao) : MovieRepositoryInterface {
+    override suspend fun addMovies(movie: Movie) = movieDao.insertMovie(movie)
+    override suspend fun addMovieImage(movieImage: MovieImage) = movieDao.insertMovieImage(movieImage)
 
-    suspend fun updateMovie (movie: Movie) = movieDao.updateMovie(movie)
-    suspend fun updateMovieImage (movieImage: MovieImage) = movieDao.updateMovieImage(movieImage)
+    override suspend fun updateMovie (movie: Movie) = movieDao.updateMovie(movie)
+    override suspend fun updateMovieImage (movieImage: MovieImage) = movieDao.updateMovieImage(movieImage)
 
-    suspend fun deleteMovie (movie: Movie) = movieDao.deleteMovie(movie)
-    suspend fun deleteMovieImage (movieImage: MovieImage) = movieDao.deleteMovieImage(movieImage)
+    override suspend fun deleteMovie (movie: Movie) = movieDao.deleteMovie(movie)
+    override suspend fun deleteMovieImage (movieImage: MovieImage) = movieDao.deleteMovieImage(movieImage)
 
-    fun getAllMoviesWithImages (): Flow<List<MovieWithImages>> = movieDao.getAllMoviesWithImages()
-    fun getFavoriteMoviesWithImages (): Flow<List<MovieWithImages>> = movieDao.getAllFavouriteMoviesWithImages()
-    fun getMovieWithImagesById (id: Long): Flow<List<MovieWithImages?>> = movieDao.getMovieWithImagesById(id)
-    fun getMovieWithImagesByTitle (title: String): Flow<List<MovieWithImages?>> = movieDao.getMovieWithImagesByTitle(title)
+    override fun getAllMoviesWithImages (): Flow<List<MovieWithImages>> = movieDao.getAllMoviesWithImages()
+    override fun getFavoriteMoviesWithImages (): Flow<List<MovieWithImages>> = movieDao.getAllFavouriteMoviesWithImages()
+    override fun getMovieWithImagesById (id: Long): Flow<List<MovieWithImages?>> = movieDao.getMovieWithImagesById(id)
+    override fun getMovieWithImagesByTitle (title: String): Flow<List<MovieWithImages?>> = movieDao.getMovieWithImagesByTitle(title)
 
+    //fun getAllMovies(): Flow<List <Movie>> = movieDao.getAllMovies()
+    companion object{
+        @Volatile
+        private var Instance: MovieRepository? = null
+        fun getRepositoryInstance(dao: MovieDao) = Instance?: synchronized(this){
+            Instance ?: MovieRepository(dao).also { Instance = it }
+        }
+    }
 }
 

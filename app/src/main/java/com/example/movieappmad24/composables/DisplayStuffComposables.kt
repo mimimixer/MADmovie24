@@ -44,6 +44,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.movieappmad24.R
 import com.example.movieappmad24.models.Movie
+import com.example.movieappmad24.models.MovieImage
 import com.example.movieappmad24.models.MovieWithImages
 import com.example.movieappmad24.viewmodels.MoviesViewModel
 import com.example.movieappmad24.models.Screen
@@ -52,7 +53,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun MovieList (
     values: PaddingValues,
-    movies: List<MovieWithImages>,
+    movieWithImages: List<MovieWithImages>,
     navController: NavController,
     viewModel: MoviesViewModel
 ){
@@ -62,11 +63,12 @@ fun MovieList (
             .fillMaxSize()
             .padding(values)
     ) {
-        items(movies) { movie ->
+        items(movieWithImages) { movieItem ->
             MovieCard(
-                movie.movie,
-                onItemClick = { movieId -> //this is what is called MovieRow in the exercises
-                navController.navigate(route = "${Screen.Detail.route}/$movieId")},
+                movieItem.movie,
+                movieImage = movieItem.movieImages,
+                onItemClick = { movieID -> //this is what is called MovieRow in the exercises
+                    navController.navigate(route = "${Screen.Detail.route}/${movieID}")},
                 onFavouriteClick = {movie ->
                     coroutineScope.launch{
                         viewModel.toggleFavoriteMovie(movie)
@@ -78,7 +80,7 @@ fun MovieList (
 }
 
 @Composable
-fun PosterHorizontalScroll(movie: Movie, sizeDp: Int){ //, contentScaleVar: ContentScale) {
+fun PosterHorizontalScroll(movieImages: List<MovieImage>, sizeDp: Int){ //, contentScaleVar: ContentScale) {
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -86,7 +88,7 @@ fun PosterHorizontalScroll(movie: Movie, sizeDp: Int){ //, contentScaleVar: Cont
             .padding(10.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        items(movie.images) { image ->
+        items(movieImages) { image ->
             /*MovieCard(
                 movie = movie,
                 number = number,
@@ -108,20 +110,20 @@ fun PosterHorizontalScroll(movie: Movie, sizeDp: Int){ //, contentScaleVar: Cont
                     shadowElevation = 2.2f
                 }
             ) {
-                GetMoviePoster(image) //, contentScaleVar)
+                GetMoviePoster(image.image) //, contentScaleVar)
             }
         }
     }
 }
 
 @Composable
-fun GetMoviePoster (movie: String){ //, contentScaleVar: ContentScale
+fun GetMoviePoster (moviePosterURl: String){ //, contentScaleVar: ContentScale
     /*if (number != 0){
         poster =movie.images.random()
     }*/
     AsyncImage(
         ImageRequest.Builder(LocalContext.current)
-            .data(movie)
+            .data(moviePosterURl)
             .crossfade(true)
             .build(),
         //for if you want only an image from a specific index:
@@ -138,6 +140,7 @@ fun GetMoviePoster (movie: String){ //, contentScaleVar: ContentScale
 //this is what is called MovieRow in the exercises, but I got confused by that name
 fun MovieCard(
     movie: Movie,
+    movieImage: List<MovieImage>,
     onItemClick: (String) -> Unit={},
     onFavouriteClick: (Movie) -> Unit={}
 ){
@@ -171,7 +174,7 @@ fun MovieCard(
                     .height(picsize.dp),
                 contentAlignment = Alignment.TopCenter
             ) {
-                GetMoviePoster(movie = movie.images[0]) //, contentScaleVar = ContentScale.Crop)
+                GetMoviePoster(moviePosterURl = movieImage[0].image) //, contentScaleVar = ContentScale.Crop)
                 Box(
                     modifier = Modifier
                         .padding(10.dp)
