@@ -24,7 +24,7 @@ class SeedImageDatabaseWorker (private val context: Context, params: WorkerParam
             return try {
                 val movieDao = MovieDatabase.getDatabase(context).movieDao()
                 val repo = MovieRepository(movieDao)
-                val movies = ListOfAllMovies
+                val movies = getMovies()
                 movies.forEach{movie: Movie ->
                     movie.images.forEach{
                         val movieImage = createMovieImage(movie, it)

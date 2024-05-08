@@ -11,7 +11,7 @@ import com.example.movieappmad24.models.MovieImage
 
 @Database(
 entities = [Movie:: class, MovieImage::class], // tables in the db, separated by comma
-version = 29, // schema version; whenever you change schema you have to increase the version number
+version = 33, // schema version; whenever you change schema you have to increase the version number
 exportSchema = false // for schema version history updates
 )
 
@@ -30,15 +30,15 @@ abstract class MovieDatabase: RoomDatabase() {
 
         fun getDatabase(context: Context): MovieDatabase {
             return instance ?: synchronized(this) { // wrap in synchronized block to prevent race conditions
-                Room.databaseBuilder(context, MovieDatabase::class.java, "movie_db_28")
+                Room.databaseBuilder(context, MovieDatabase::class.java, "movie_db_33")
                     .fallbackToDestructiveMigration() // if schema changes wipe the db
                     .addCallback(object : Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
                             println("// Seed the database with initial data")
-                            //WorkManagerSeedDatabaseRepository(context).seedAll()
-                            WorkManagerSeedDatabaseRepository(context).seedMovie()
-                            WorkManagerSeedDatabaseRepository(context).seedImage()
+                            WorkManagerSeedDatabaseRepository(context).seedAll()
+                            //WorkManagerSeedDatabaseRepository(context).seedMovie()
+                            //WorkManagerSeedDatabaseRepository(context).seedImage()
                         }
                         override fun onOpen(db: SupportSQLiteDatabase) {
                             super.onOpen(db)

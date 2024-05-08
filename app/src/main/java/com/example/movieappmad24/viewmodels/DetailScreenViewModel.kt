@@ -18,20 +18,21 @@ class DetailScreenViewModel (repository: MovieRepository, movieID: String): Movi
         //private val _movieList = MutableStateFlow(listOf<MovieWithImages>())  //private, so not accessible from
         // outside the viewModel
         //val movieList: StateFlow<List<Movie>> = _movieList.asStateFlow() //accessible, but not mutable
+        val movieListFlow: StateFlow<List<MovieWithImages>> = movieList.asStateFlow() //accessible, but not mutable
 
         init {
             viewModelScope.launch {
-                println("detailviewmodel")
+                println("detailviewmodel reinitialized")
                 repository.getMovieWithImagesById(movieID).distinctUntilChanged()
                     .collect { listOfMovies ->          //suspend function call!
                     movieList.value = listOfMovies
                     }
+                playerPositionOfDetailScreen = 0
+                detailScreenPlayerIsPlaying = false
             }
         }
-    val movieListFlow: StateFlow<List<MovieWithImages>> = movieList.asStateFlow() //accessible, but not mutable
 
     var playerPositionOfDetailScreen by mutableLongStateOf(0)
-
     var detailScreenPlayerIsPlaying by mutableStateOf(false)
 
   /*  fun setCurrentPosition(movie: Movie, position: Long) {

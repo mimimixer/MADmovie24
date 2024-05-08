@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -34,10 +35,11 @@ fun PlayerTrailer (currentMovie: Movie, moviesViewModel: DetailScreenViewModel){
         mutableStateOf(Lifecycle.Event.ON_CREATE)
     }
 
-    var playerPosition by remember {
+    var playerPosition by rememberSaveable {
         mutableLongStateOf(moviesViewModel.playerPositionOfDetailScreen)
     }
-    var playerPlays by remember {
+
+    var playerPlays by rememberSaveable {
         mutableStateOf(moviesViewModel.detailScreenPlayerIsPlaying)
     }
 
@@ -105,6 +107,7 @@ fun PlayerTrailer (currentMovie: Movie, moviesViewModel: DetailScreenViewModel){
                     if (playerPlays){ //moviesViewModel.detailScreenPlayerIsPlaying) {
                         it.player?.play()
                     }
+                    println("player resumes = $playerPlays on position $playerPosition")
                 }
 
                 Lifecycle.Event.ON_STOP -> {
@@ -112,7 +115,8 @@ fun PlayerTrailer (currentMovie: Movie, moviesViewModel: DetailScreenViewModel){
                         playerPlays = exoPlayer.isPlaying //moviesViewModel.togglePlayer(currentMovie, exoPlayer.isPlaying)
                         playerPosition = it.player?.currentPosition!!
                         //moviesViewModel.setCurrentPosition(currentMovie, it.player?.currentPosition!!)
-                        }
+                        println("playerPLayes = $playerPlays on position $playerPosition")
+                    }
                     it.onPause()
                     it.player?.pause() //this makes it continue playing. if I use
                     //it.player?.stop() then on resume we will have to push the

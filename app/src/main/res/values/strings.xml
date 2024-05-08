@@ -3,5 +3,7 @@
     <string name="seed_worker">SeedDatabaseWorker</string>
     <string name="seed_image_worker">SeedImageDatabaseWorker</string>
     <string name="seed_movie_worker">SeedMovieDatabaseWorker</string>
+    <string name="database_name">movie_database_30</string>
+
 
 </resources>

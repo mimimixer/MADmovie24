@@ -23,7 +23,7 @@ class SeedMovieDatabaseWorker(private val context: Context, params: WorkerParame
         return try {
             val movieDao = MovieDatabase.getDatabase(context).movieDao()
             val repo = MovieRepository(movieDao)
-            val movies = ListOfAllMovies
+            val movies = getMovies()
             movies.forEach{movie: Movie ->
                 repo.addMovie(movie)
                 println("movie dbid# ${movie.dbId} and title ${movie.title} added")

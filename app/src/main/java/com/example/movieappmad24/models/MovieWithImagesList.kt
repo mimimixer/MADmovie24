@@ -32,7 +32,7 @@ val ListOfDefaultMovie: List<MovieWithImages> =
 
 val ListOfAllMovies: List<Movie> = //aws movie images
     listOf(
-        Movie(dbId = 499549,
+        Movie(
             id = "tt0499549",
             title = "Avatar",
             year = "2009",
@@ -48,7 +48,7 @@ val ListOfAllMovies: List<Movie> = //aws movie images
             trailer = "trailer_placeholder",
             rating = "7.9"),
 
-        Movie(dbId = 416449,
+        Movie(
             id = "tt0416449",
             title = "300",
             year = "2006",
@@ -63,7 +63,7 @@ val ListOfAllMovies: List<Movie> = //aws movie images
             trailer = "trailer_placeholder",
             rating = "7.7"),
 
-        Movie(dbId = 848228,
+        Movie(
             id = "tt0848228",
             title = "The Avengers",
             year = "2012",
@@ -79,7 +79,7 @@ val ListOfAllMovies: List<Movie> = //aws movie images
             trailer = "trailer_placeholder",
             rating = "8.1"),
 
-        Movie(dbId = 993846,
+        Movie(
             id = "tt0993846",
             title = "The Wolf of Wall Street",
             year = "2013",
@@ -95,7 +95,7 @@ val ListOfAllMovies: List<Movie> = //aws movie images
             trailer = "trailer_placeholder",
             rating = "8.2"),
 
-        Movie(dbId = 816692,
+        Movie(
             id = "tt0816692",
             title = "Interstellar",
             year = "2014",
@@ -111,7 +111,7 @@ val ListOfAllMovies: List<Movie> = //aws movie images
             trailer = "trailer_placeholder",
             rating = "8.6"),
 
-        Movie(dbId = 944947,
+        Movie(
             id = "tt0944947",
             title = "Game of Thrones",
             year = "2011 - 2018",
@@ -128,7 +128,7 @@ val ListOfAllMovies: List<Movie> = //aws movie images
             rating = "9.5"),
 
 
-        Movie(dbId = 2306299,
+        Movie(
             id = "tt2306299",
             title = "Vikings",
             year = "2013–2020",
@@ -144,7 +144,7 @@ val ListOfAllMovies: List<Movie> = //aws movie images
             trailer = "trailer_placeholder",
             rating = "9.5"),
 
-        Movie(dbId = 903747,
+        Movie(
             id = "tt0903747",
             title = "Breaking Bad",
             year = "2008–2013",
@@ -160,7 +160,7 @@ val ListOfAllMovies: List<Movie> = //aws movie images
             trailer = "trailer_placeholder",
             rating = "9.5"),
 
-        Movie(dbId = 2707408,
+        Movie(
             id = "tt2707408",
             title = "Narcos",
             year = "2015-",
